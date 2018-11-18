@@ -1,0 +1,18 @@
+{
+  "name": "atlas-node",
+  "version": "2018.11.17",
+  "author": "Claude SIMON (http://q37.info/contact/)",
+  "description": "Atlas toolkit for Node.js",
+  "dependencies": {
+    "atlastk": "0.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epeios-q37/atlas-node.git"
+  },
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/epeios-q37/atlas-node/issues"
+  },
+  "homepage": "https://github.com/epeios-q37/atlas-node#readme"
+}
