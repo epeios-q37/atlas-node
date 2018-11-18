@@ -2,7 +2,7 @@
 
 ![Node.js logo](https://q37.info/download/assets/Node.png "Node.js")
 
-The [*Atlas* toolkit](https://atlastk.org/) is a library which facilitates the prototyping of web applications.
+The [*Atlas* toolkit](https://atlastk.org/) is a library to handle web interfaces.
 
 [![NPM badge of the Atlas toolkit](http://nodei.co/npm/atlastk.png)](http://npmjs.com/atlastk/ "NPM package of the Atlas toolkit")
 
@@ -12,38 +12,23 @@ Here's how a [*Hello, World!*](https://en.wikipedia.org/wiki/%22Hello,_World!%22
 
 ![Little demonstration](http://q37.info/download/assets/Hello.gif "A basic example")
 
-For an online demonstration: <http://q37.info/runkit/Hello>.
+For a live demonstration: <http://q37.info/runkit/Hello>.
 
 Source code:
 
 ```javascript
 const atlas = require( 'atlastk' );
 
-// Content of 'Head.html'.
 const head = `
 <title>"Hello, World !" example</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEUEAvyEhsxERuS8urQsKuycnsRkYtzc2qwUFvRUVtysrrx0ctTs6qTMyrSUksQ0NuyciPBdAAABHklEQVR42mNgwAa8zlxjDd2A4POfOXPmzZkFCAH2M8fNzyALzDlzg2ENssCbMwkMOsgCa858YOjBKxBzRoHhD7LAHiBH5swCT9HQ6A9ggZ4zp7YCrV0DdM6pBpAAG5Blc2aBDZA68wCsZPuZU0BDH07xvHOmAGKKvgMP2NA/Zw7ADIYJXGDgLQeBBSCBFu0aoAPYQUadMQAJAE29zwAVWMCWpgB08ZnDQGsbGhpsgCqBQHNfzRkDEIPlzFmo0T5nzoMovjPHoAK8Zw5BnA5yDosDSAVYQOYMKIDZzkoDzagAsjhqzjRAfXTmzAQgi/vMQZA6pjtAvhEk0E+ATWRRm6YBZuScCUCNN5szH1D4TGdOoSrggtiNAH3vBBjwAQCglIrSZkf1MQAAAABJRU5ErkJggg==" />
 <style type="text/css">
-	html, body {
-		height: 100%;
-		padding: 0;
-		margin: 0;
-	}
-  
-	.vcenter-out, .hcenter {
-		display: table;
-		height: 100%;
-		margin: auto;
-	}
-
-	.vcenter-in {
-		display: table-cell;
-		vertical-align: middle;
-	}
+ html, body {height: 100%; padding: 0; 	margin: 0;}
+ .vcenter-out, .hcenter {display: table; height: 100%; margin: auto;}
+ .vcenter-in {display: table-cell; vertical-align: middle;}
 </style>
 `;
 
-// Content of 'Main.html'.
 const body = `
 <div class ="vcenter-out">
  <div class ="vcenter-in">
@@ -74,13 +59,37 @@ const callbacks = {
 atlas.launch(() => new atlas.DOM(), "Connect", callbacks, head);
 ```
 
+To install and run this example on your computer:
+
+- launch `npm install atlastk`,
+- in the same directory, create a `Hello.js` file with above source code, or get it directly here: <https://q37.info/download/assets/Hello.js>,
+- launch `node Hello.js`.
+
 ## *TodoMVC*
 
 And here's how the *Atlas* toolkit version of the [*TodoMVC*](http://todomvc.com/) application looks like: 
 
 [![TodoMVC](http://q37.info/download/TodoMVC.gif "The TodoMVC application made with the Atlas toolkit")](https://github.com/epeios-q37/todomvc-java)
 
-For an online demonstration: <http://q37.info/runkit/TodoMVC>.
+For a live demonstration: <http://q37.info/runkit/TodoMVC>.
+
+To install and run this example on your computer:
+
+- launch `npm install atlastk`,
+- in the same directory, put <https://q37.info/download/assets/TodoMVC.js>,
+- launch `node TodoMVC.js`.
+
+## Other examples
+
+There are a total of 5 example source files, you can install and run on your computer, after a `npm install atlastk`:
+
+- <https://q37.info/download/assets/Blank.js>,
+- <https://q37.info/download/assets/Chatroom.js>,
+- <https://q37.info/download/assets/Hello.js>,
+- <https://q37.info/download/assets/Notes.js>,
+- <https://q37.info/download/assets/TodoMVC.js>.
+
+In below described repository, the examples come with files they need to work. Above source files embed the content of this files.
 
 ## Content of the repository
 
@@ -95,7 +104,7 @@ To launch an example:
 - launch `npm install` (this have only to be do once),
 - launch `node <Name>/main.js`,
 
-where `<Name>` is the name of the example (`Blank`, `Chatroom`…).
+where `<Name>` is the name of the example (`Blank`, `Chatroom`â€¦).
 
 The *Atlas* toolkit is also available for:
 
@@ -103,4 +112,4 @@ The *Atlas* toolkit is also available for:
 - *PHP*: <http://github.com/epeios-q37/atlas-php>
 - *Python*: <http://github.com/epeios-q37/atlas-python>
 
-For more information about the *Atlas* toolkit, go to <http://atlastk.org/>.
+For more information about the *Atlas* toolkit: <http://atlastk.org/>.
