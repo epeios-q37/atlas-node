@@ -1,9 +1,22 @@
 # *CHANGELOG* for the *Atlas* toolkit
 
-- Common to all bindings,
+- Common to **all** bindings,
 - does **not** concern the native code,
 
 ---
+
+## 2018-11-22
+
+- both application (web) address/port and proxy address/port can now be set with environment variables,
+- switching to version 0.5.1,
+
+## 2018-11-20
+
+- switching to protocol version 1,
+
+## 2018-11-18
+- *Node.js* binding
+  - version 0.5.0b; only to fix a *NPM*/*Github* issue,
 
 ## 2018-11-17
 
