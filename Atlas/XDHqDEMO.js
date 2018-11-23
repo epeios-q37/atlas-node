@@ -56,7 +56,7 @@ default:
 pAddr = getEnv("ATK_PADDR", pAddr);
 pPort = parseInt(getEnv("ATK_PPORT", pPort.toString()));
 wAddr = getEnv("ATK_WADDR", wAddr);
-wPort = getEnv("ATK_PPORT", wPort);
+wPort = getEnv("ATK_WPORT", wPort);
 
 if (wAddr == "")
 	wAddr = pAddr;
