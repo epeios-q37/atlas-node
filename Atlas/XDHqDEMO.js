@@ -70,8 +70,8 @@ const net = require('net');
 const types = shared.types;
 const open = shared.open;
 
-const protocolLabel = "712a58bf-2c9a-47b2-ba5e-d359a99966de";
-const protocolVersion = "1";
+const protocolLabel = "3f0aef6b-b893-4ccd-9316-d468588fc572";
+const protocolVersion = "0";
 
 function byteLength(str) {
 	// returns the byte length of an utf8 string
@@ -225,12 +225,14 @@ function pseudoServer(createCallback, newSessionAction, callbacks, head) {
 
 		client.on('readable', () => {
 			if (client._xdhDOM === undefined) {
+				let offset = 0;
 				let query = getQuery(client);
+				let errorMessage = "";
 
-				if ( isTokenEmpty() ) {
-					token = getString(query, 0)[0];
+				if (isTokenEmpty()) {
+					[token, offset] = getString(query, offset);
 
-					if ( isTokenEmpty() )
+					if (isTokenEmpty())
 						throw "Bad connection information !!!";
 
 					if (wPort != ":0") {
@@ -240,6 +242,13 @@ function pseudoServer(createCallback, newSessionAction, callbacks, head) {
 						console.log("Open above URL in a web browser. Enjoy!");
 
 						open(completeURL);
+					} else {
+						let returnedToken = "";
+
+						[returnedToken, offset] = getString(query, offset);
+
+						if (returnedToken != token)
+							throw "Unmatched token !!!";
 					}
 				}
 
@@ -247,11 +256,24 @@ function pseudoServer(createCallback, newSessionAction, callbacks, head) {
 				client._xdhDOM._xdhSocket = client;
 				client._xdhDOM._xdhIsDEMO = true;
 				client._xdhDOM._xdhType = types.UNDEFINED;
-				client .write( addString(addString(addString(Buffer.from(""),protocolLabel),protocolVersion),"NJS"));
+				client.write(addString(addString(Buffer.from(""), protocolLabel), protocolVersion));
 			} else if (relaunch) {
+				let query = ""
+				let offset = 0;
+				let errorMessage = "";
+
 				pseudoServer(createCallback, newSessionAction, callbacks);	// Useless to give 'head', as it will no more be used.
 
-				while (client.read());	// Language.
+				query = getQuery(client);
+
+				[errorMessage, offset] = getString(query, offset);
+
+				if (errorMessage != "")
+					throw (errorMessage);
+
+				getString(query, offset);	// Language.
+
+				client.write(handleString("NJS"));
 
 				relaunch = false;
 			} else {
@@ -304,8 +326,8 @@ function pseudoServer(createCallback, newSessionAction, callbacks, head) {
 		});
 	});
 	client.on('error', (err) => {
-		throw "Unable to connect to '" + address + ":" + port + "' !!!";
-	}); 
+		throw "Unable to connect to '" + pAddr + ":" + pPort + "' !!!";
+	});
 }
 
 function launch(createCallback, newSessionAction, callbacks, head) {
