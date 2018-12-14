@@ -209,7 +209,7 @@ function isTokenEmpty() {
 	return ( token == "" ) || ( token.charAt( 0 ) == '&' );
 }
 
-function pseudoServer(createCallback, newSessionAction, callbacks, head) {
+function pseudoServer(createCallback, callbacks, head) {
 	var client = new net.Socket();
 
 	client.connect(pPort, pAddr, () => {
@@ -262,7 +262,7 @@ function pseudoServer(createCallback, newSessionAction, callbacks, head) {
 				let offset = 0;
 				let errorMessage = "";
 
-				pseudoServer(createCallback, newSessionAction, callbacks);	// Useless to give 'head', as it will no more be used.
+				pseudoServer(createCallback, callbacks);	// Useless to give 'head', as it will no more be used.
 
 				query = getQuery(client);
 
@@ -289,10 +289,7 @@ function pseudoServer(createCallback, newSessionAction, callbacks, head) {
 					id = getId(query);
 					action = getAction(query);
 
-					if (action == "")
-						callbacks[newSessionAction](client._xdhDOM, "");
-					else
-						callbacks[action](client._xdhDOM, id);
+					callbacks[action](client._xdhDOM, id);
 
 					if (client._xdhDOM._xdhType === types.UNDEFINED) {
 						cont = false;
@@ -330,12 +327,12 @@ function pseudoServer(createCallback, newSessionAction, callbacks, head) {
 	});
 }
 
-function launch(createCallback, newSessionAction, callbacks, head) {
+function launch(createCallback, callbacks, head) {
 	if (process.env.EPEIOS_SRC) {
 		console.log("DEMO mode !");
 	}
 
-	setTimeout(() => pseudoServer(createCallback, newSessionAction, callbacks, head), 1000);
+	setTimeout(() => pseudoServer(createCallback, callbacks, head), 1000);
 
 }
 

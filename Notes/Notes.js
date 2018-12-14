@@ -231,7 +231,7 @@ function acCancel(dom, id) {
 
 function main() {
 	const callbacks = {
-		"Connect": acConnect,
+		"": acConnect,
 		"ToggleDescriptions": acToggleDescriptions,
 		"Search": acSearch,
 		"Edit": acEdit,
@@ -240,7 +240,7 @@ function main() {
 		"Cancel": acCancel,
 	};
 
-	atlas.launch(newSession, "Connect", callbacks, head);
+	atlas.launch(newSession, callbacks, head);
 }
 
 // Content of 'Head.html'.

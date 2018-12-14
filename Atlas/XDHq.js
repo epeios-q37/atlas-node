@@ -116,7 +116,7 @@ function merge(key, value) {
 var xdhq;
 var call;
 
-function launch(callback, action, tagsAndCallbacks, head, mode) {
+function launch(callback, tagsAndCallbacks, head, mode) {
 	switch (mode) {
 		case modes.DEMO:
 			xdhq = require('./XDHqDEMO.js');
@@ -130,7 +130,7 @@ function launch(callback, action, tagsAndCallbacks, head, mode) {
 	}
 
 	call = xdhq.call;
-	xdhq.launch(callback, action, tagsAndCallbacks, head );
+	xdhq.launch(callback, tagsAndCallbacks, head );
 }
 
 class XDH {

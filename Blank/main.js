@@ -72,14 +72,14 @@ function acShowInput(dom, id) {
 function main() {
 	const callbacks = (
 		{
-			"Connect": acConnect,
+			"": acConnect,
 			"Submit": acSubmit,
 			"HideInput": acHideInput,
 			"ShowInput": acShowInput,
 		}
 	);
 
-	atlas.launch(newSession, "Connect", callbacks, readAsset( "Head.html") );
+	atlas.launch(newSession, callbacks, readAsset( "Head.html") );
 }
 
 main();

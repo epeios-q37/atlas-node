@@ -167,14 +167,14 @@ function acUpdate(dom, id) {
 function main() {
 	const callbacks = (
 		{
-			"Connect": acConnect,
+			"": acConnect,
 			"SubmitPseudo": acSubmitPseudo,
 			"SubmitMessage": acSubmitMessage,
 			"Update": acUpdate,
 		}
 	);
 
-	atlas.launch(newSession, "Connect", callbacks, readAsset( "Head.html") );
+	atlas.launch(newSession, callbacks, readAsset( "Head.html") );
 }
 
 main();

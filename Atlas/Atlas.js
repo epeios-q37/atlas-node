@@ -100,7 +100,7 @@ if (process.argv.length > 2)
 
 module.exports.mode = mode;
 
-function launch(createCallback, newSessionAction, callbacks, head, gui) {
+function launch(createCallback, callbacks, head, gui) {
 	var dir = xdhq.getAssetDir();
 	var arg = "";
 	var prod = false;
@@ -140,7 +140,7 @@ function launch(createCallback, newSessionAction, callbacks, head, gui) {
 
 	prod = mode == modes.PROD;
 
-	xdhq.launch(createCallback, newSessionAction, callbacks, head, mode);
+	xdhq.launch(createCallback, callbacks, head, mode);
 
 	switch (gui) {
 		case guis.NONE:

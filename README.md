@@ -48,7 +48,7 @@ const body = `
 `;
 
 const callbacks = {
- "Connect": (dom, id) => dom.setLayout("", body,
+ "": (dom, id) => dom.setLayout("", body,
   () => dom.focus("input")),
  "Typing": (dom, id) => dom.getContent(id,
   (name) => dom.setContent("name", name)),
@@ -56,7 +56,7 @@ const callbacks = {
   (answer) => { if (answer) dom.setContents({ "input": "", "name": "" }) }),
 };
 
-atlas.launch(() => new atlas.DOM(), "Connect", callbacks, head);
+atlas.launch(() => new atlas.DOM(), callbacks, head);
 ```
 
 To install and run this example on your computer:
