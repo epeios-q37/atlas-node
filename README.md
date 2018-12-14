@@ -59,37 +59,13 @@ const callbacks = {
 atlas.launch(() => new atlas.DOM(), callbacks, head);
 ```
 
-To install and run this example on your computer:
-
-- launch `npm install atlastk`,
-- in the same directory, create a `Hello.js` file with above source code, or get it directly here: <https://q37.info/download/assets/Hello.js>,
-- launch `node Hello.js`.
-
 ## *TodoMVC*
 
-And here's how the *Atlas* toolkit version of the [*TodoMVC*](http://todomvc.com/) application looks like: 
+And here's how the *Atlas* toolkit version of the [*TodoMVC*](http://todomvc.com/) application looks like:
 
 [![TodoMVC](http://q37.info/download/TodoMVC.gif "The TodoMVC application made with the Atlas toolkit")](https://github.com/epeios-q37/todomvc-java)
 
 For a live demonstration: <http://q37.info/runkit/TodoMVC>.
-
-To install and run this example on your computer:
-
-- launch `npm install atlastk`,
-- in the same directory, put <https://q37.info/download/assets/TodoMVC.js>,
-- launch `node TodoMVC.js`.
-
-## Other examples
-
-There are a total of 5 example source files, you can install and run on your computer, after a `npm install atlastk`:
-
-- <https://q37.info/download/assets/Blank.js>,
-- <https://q37.info/download/assets/Chatroom.js>,
-- <https://q37.info/download/assets/Hello.js>,
-- <https://q37.info/download/assets/Notes.js>,
-- <https://q37.info/download/assets/TodoMVC.js>.
-
-In below described repository, the examples come with files they need to work. Above source files embed the content of this files.
 
 ## Content of the repository
 
