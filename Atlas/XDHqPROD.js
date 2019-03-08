@@ -66,7 +66,7 @@ function split(keysAndValues, keys, values) {
 	}
 }
 
-function launch(callback, action, tagsAndCallbacks, head ) {
+function launch(callback, tagsAndCallbacks, head ) {
 	console.log("PROD mode !");
 	var tags = [];
 	var callbacks = [];
@@ -75,7 +75,7 @@ function launch(callback, action, tagsAndCallbacks, head ) {
 
 	njsq._call(xdhq, 1, tags, callbacks);
 
-	njsq._call(xdhq, 2, callback, "53752", action);
+	njsq._call(xdhq, 2, callback, "53752");
 }
 
 module.exports.componentInfo = () => njsq._componentInfo(xdhq);

@@ -17,17 +17,17 @@
 	along with XDHq If not, see <http://www.gnu.org/licenses/>.
 */
 
-"use strict"
+"use strict";
 
 var atlas;
 
 if (process.env.EPEIOS_SRC) {
 	let epeiosPath = "";
 
-	if (process.platform == 'win32')
-		epeiosPath = "h:/hg/epeios/"
-	else
-		epeiosPath = "~/hg/epeios/"
+    if (process.platform === 'win32')
+        epeiosPath = "h:/hg/epeios/";
+    else
+        epeiosPath = "~/hg/epeios/";
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
@@ -36,11 +36,12 @@ if (process.env.EPEIOS_SRC) {
 
 const callbacks = {
 	"": (dom, id) => dom.setLayout("", atlas.readAsset("Main.html"),
-		() => dom.focus("input")),
-	"Typing": (dom, id) => dom.getContent(id,
-		(name) => dom.setContent("name", name)),
+        () => dom.focus("input")),
+	"Submit": (dom, id) => dom.getContent( "input",
+        (name) => dom.alert("Hello, " + name + "!",
+            () => dom.focus("input") ) ),
 	"Clear": (dom, id) => dom.confirm("Are you sure ?",
-		(answer) => { if (answer) dom.setContents({ "input": "", "name": "" }) }),
+        (answer) => { if (answer) dom.setContent("input", ""); dom.focus("input");})
 };
 
 atlas.launch(() => new atlas.DOM(), callbacks, atlas.readAsset('Head.html'));

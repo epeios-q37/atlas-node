@@ -52,13 +52,13 @@ class Notes extends DOM {
 				description: '',
 			}, {
 				title: 'Improve design',
-				description: 'Tastes and colors... (aka &laquo;CSS aren&rsquo;t my cup of tea...&raquo;)',
+				description: "Tastes and colors... (aka «CSS aren't my cup of tea...»)",
 			}, {
 				title: 'Fixing bugs',
 				description: 'There are bugs ? Really ?',
 			}, {
 				title: 'Implement new functionalities',
-				description: "Although it&rsquo;s almost perfect..., isn&rsquo;t it ?",
+				description: "Although it's almost perfect..., isn't it ?",
 			}
 		];
 	}
@@ -105,7 +105,7 @@ function displayList(dom) {
 		i++;
 	}
 
-	xml.popTag();;
+	xml.popTag();
 
 	dom.setLayoutXSL("Notes", xml, xsl,
 		() => dom.setContents(contents,

@@ -17,8 +17,7 @@
 	along with XDHq. If not, see <http://www.gnu.org/licenses/>.
 */
 
-"use strict"
-
+"use strict";
 const fs = require('fs');
 const path = require('path');
 const shared = require('./XDHqSHRD.js');
@@ -38,9 +37,9 @@ function isDev() {
 function getEpeiosPath() {
 	if (isDev) {
 		if (platform == platforms.WIN32) {
-			return "h:/hg/epeios/"
+            return "h:/hg/epeios/";
 		} else {
-			return "~/hg/epeios/"
+            return "~/hg/epeios/";
 		}
 	} else
 		throw "Error !";
@@ -58,7 +57,7 @@ function getAssetDir() {
 }
 
 function getAssetFileName(fileName) {
-	return path.join(getAssetDir(), path.win32.basename(fileName))
+    return path.join(getAssetDir(), path.win32.basename(fileName));
 }
 
 function readAsset(fileName) {
@@ -80,7 +79,7 @@ function readXSLAsset(xslContentOrFilename) {
 
 const modes = {
 	DEMO: 0,
-	PROD: 1,
+	PROD: 1
 };
 
 // {'a': b, 'c': d, 'e': f} -> ['a','c','e'] [b,d,f]
@@ -138,7 +137,9 @@ class XDH {
 		call(this, "Execute_1", types.STRING, 1, script, 0, callback);
 	}
 	alert(message, callback) {
-		call(this, "Alert_1", types.VOID, 1, message, 0, callback);
+        call(this, "Alert_1", types.STRING, 1, message, 0, callback);
+        // For the return value being 'STRING' instead of 'VOID',
+        // see the 'alert' primitive in 'XDHqXDH'.
 	}
 	confirm(message, callback) {
 		call(this, "Confirm_1", types.STRING, 1, message, 0, (answer) => callback(answer == "true"));
@@ -152,10 +153,10 @@ class XDH {
 	setLayoutXSL(id, xml, xslFilename, callback) {
 		let xslURL = xslFilename;
 
-		if (this._xdhIsDEMO)
+		if (this._xdh.isDEMO)
 			xslURL = "data:text/xml;charset=utf-8," + encodeURIComponent(readXSLAsset(xslFilename));
 
-		if (typeof (xml) !== "string")
+		if (typeof xml !== "string")
 			xml = xml.toString();
 
 		this.setLayout_(id, xml, xslURL, callback);
@@ -184,10 +185,10 @@ class XDH {
 		call(this, "SetTimeout_1", types.VOID, 2, delay.toString(), action, 0, callback);
 	}
 	createElement_(name, id, callback ) {
-		call( this, "CreateElement_1", types.STRING, 2, name, id, 0, callback )
-	}
+        call(this, "CreateElement_1", types.STRING, 2, name, id, 0, callback);
+    }
 	createElement(name, idOrCallback, callback ) {
-		if (typeof (idOrCallback) === "string")
+		if (typeof idOrCallback === "string")
 			return this.createElement_(name, idOrCallback, callback);
 		else
 			return this.createElement_(name, "", idOrCallback);
@@ -258,7 +259,7 @@ class XDH {
 
 module.exports.componentInfo = () => njsq._componentInfo(xdhq);
 module.exports.wrapperInfo = () => njsq._wrapperInfo();
-module.exports.returnArgument = (text) => { return njsq._call(xdhq, 0, text) };
+module.exports.returnArgument = (text) => { return njsq._call(xdhq, 0, text); };
 
 module.exports.launch = launch;
 module.exports.XDH = XDH;

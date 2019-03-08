@@ -27,10 +27,10 @@ var atlas;
 if (process.env.EPEIOS_SRC) {
 	let epeiosPath = "";
 
-	if (process.platform == 'win32')
-		epeiosPath = "h:/hg/epeios/"
-	else
-		epeiosPath = "~/hg/epeios/"
+    if (process.platform === 'win32')
+        epeiosPath = "h:/hg/epeios/";
+    else
+        epeiosPath = "~/hg/epeios/";
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
@@ -40,38 +40,28 @@ if (process.env.EPEIOS_SRC) {
 const head = `
 <title>"Hello, World !" example</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEUEAvyEhsxERuS8urQsKuycnsRkYtzc2qwUFvRUVtysrrx0ctTs6qTMyrSUksQ0NuyciPBdAAABHklEQVR42mNgwAa8zlxjDd2A4POfOXPmzZkFCAH2M8fNzyALzDlzg2ENssCbMwkMOsgCa858YOjBKxBzRoHhD7LAHiBH5swCT9HQ6A9ggZ4zp7YCrV0DdM6pBpAAG5Blc2aBDZA68wCsZPuZU0BDH07xvHOmAGKKvgMP2NA/Zw7ADIYJXGDgLQeBBSCBFu0aoAPYQUadMQAJAE29zwAVWMCWpgB08ZnDQGsbGhpsgCqBQHNfzRkDEIPlzFmo0T5nzoMovjPHoAK8Zw5BnA5yDosDSAVYQOYMKIDZzkoDzagAsjhqzjRAfXTmzAQgi/vMQZA6pjtAvhEk0E+ATWRRm6YBZuScCUCNN5szH1D4TGdOoSrggtiNAH3vBBjwAQCglIrSZkf1MQAAAABJRU5ErkJggg==" />
-<style type="text/css">
- html, body {height: 100%; padding: 0; margin: 0;}
- .vcenter-out, .hcenter {display: table; height: 100%; margin: auto;}
- .vcenter-in { display: table-cell; vertical-align: middle;}
-</style>
 `;
 
 const body = `
-<div class ="vcenter-out">
- <div class ="vcenter-in">
-  <fieldset>
-   <label>Name: </label>
-   <input id="input" maxlength="20" placeholder="Enter a name here" type="text" data-xdh-onevent="input|Typing" />
+<div style="display: table; margin: 50px auto auto auto;">
+ <fieldset>
+  <input id="input" maxlength="20" placeholder="Enter a name here" type="text" data-xdh-onevent="Submit" value="World"/>
+  <div style="display: flex; justify-content: space-around; margin: 5px auto auto auto;">
+   <button data-xdh-onevent="Submit">Submit</button>
    <button data-xdh-onevent="Clear">Clear</button>
-   <hr />
-   <h1>
-    <span>Hello </span>
-    <span style="font-style: italic;" id="name"></span>
-    <span>!</span>
-   </h1>
-  </fieldset>
- </div>
+  </div>
+ </fieldset>
 </div>
 `;
 
 const callbacks = {
-	"": (dom, id) => dom.setLayout("", body,
-		() => dom.focus("input")),
-	"Typing": (dom, id) => dom.getContent(id,
-		(name) => dom.setContent("name", name)),
-	"Clear": (dom, id) => dom.confirm("Are you sure ?",
-		(answer) => { if (answer) dom.setContents({ "input": "", "name": "" }) }),
+    "": (dom, id) => dom.setLayout("", atlas.readAsset("Main.html"),
+        () => dom.focus("input")),
+    "Submit": (dom, id) => dom.getContent("input",
+        (name) => dom.alert("Hello, " + name + "!",
+            () => dom.focus("input"))),
+    "Clear": (dom, id) => dom.confirm("Are you sure ?",
+        (answer) => { if (answer) dom.setContent("input", ""); dom.focus("input"); })
 };
 
 atlas.launch(() => new atlas.DOM(), callbacks, head);
