@@ -55,7 +55,7 @@ const body = `
 `;
 
 const callbacks = {
-    "": (dom, id) => dom.setLayout("", atlas.readAsset("Main.html"),
+    "": (dom, id) => dom.setLayout("", body,
         () => dom.focus("input")),
     "Submit": (dom, id) => dom.getContent("input",
         (name) => dom.alert("Hello, " + name + "!",
