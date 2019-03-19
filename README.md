@@ -12,6 +12,11 @@ Here's how a [*Hello, World!*](https://en.wikipedia.org/wiki/%22Hello,_World!%22
 
 ![Little demonstration](http://q37.info/download/assets/Hello.gif "A basic example")
 
+- `git clone http://github.com/epeios-q37/atlas-node`
+- `cd atlas-node`
+- `npm install`
+- `node Hello/Hello.js`
+
 For a live demonstration: <http://q37.info/runkit/Hello>.
 
 Source code:
