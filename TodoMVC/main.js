@@ -18,21 +18,21 @@
 */
 
 /*
-This is the Node.js Atlas (http://atlastk/) version
+This is the Node.js Atlas toolkit (http://atlastk.org/) version
 of the TodoMVC application (http://todomvc.com/).
 */
 
-"use strict"
+"use strict";
 
 var atlas;
 
 if (process.env.EPEIOS_SRC) {
 	let epeiosPath = "";
 
-	if (process.platform == 'win32')
-		epeiosPath = "h:/hg/epeios/"
+	if (process.platform === 'win32')
+		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/"
+		epeiosPath = "~/hg/epeios/";
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
@@ -92,14 +92,14 @@ function displayCount(dom, count) {
 function handleCount(dom) {
 	var count = dom.itemsLeft();
 
-	if (count != dom.todos.length)
+	if (count !== dom.todos.length)
 		dom.disableElement("HideClearCompleted",
 			() => displayCount(dom, count)
-		)
+		);
 	else
 		dom.enableElement("HideClearCompleted",
 			() => displayCount(dom, count)
-		)
+		);
 }
 
 function displayTodos(dom) {
@@ -117,7 +117,7 @@ function displayTodos(dom) {
 		xml.setAttribute( 'id', i );
 		xml.setAttribute( 'completed', todo["completed"] );
 		xml.setValue( todo["label"]);
-		xml.popTag();;
+		xml.popTag();
 		i++;
 	}
 
@@ -147,7 +147,7 @@ function submitNew(dom) {
 		(content) => dom.setContent("Input", "",
 			() => {
 				content = content.trim();
-				if (content != "") {
+				if (content !== "") {
 					dom.todos.unshift(
 						{
 							"completed": false,
@@ -169,7 +169,7 @@ function submitModification(dom) {
 		(content) => dom.setContent("Input." + id, "",
 			() => {
 				content = content.trim();
-				if (content != "") {
+				if (content !== "") {
 					dom.todos[id]['label'] = content;
 					dom.setContent("Label." + id, content,
 						() => dom.removeClasses(
@@ -189,7 +189,7 @@ function submitModification(dom) {
 }
 
 function acSubmit(dom, id) {
-	if (dom.index == -1) {
+	if (dom.index === -1) {
 		submitNew(dom);
 	} else {
 		submitModification(dom);
@@ -229,7 +229,7 @@ function acAll(dom, id) {
 			},
 			() => dom.disableElements(["HideActive", "HideCompleted"])
 		)
-	)
+	);
 }
 
 function acActive(dom, id) {
@@ -244,7 +244,7 @@ function acActive(dom, id) {
 			() => dom.disableElement("HideActive",
 				() => dom.enableElement("HideCompleted"))
 		)
-	)
+	);
 }
 
 function acCompleted(dom, id) {
@@ -259,7 +259,7 @@ function acCompleted(dom, id) {
 			() => dom.disableElement("HideCompleted",
 				() => dom.enableElement("HideActive"))
 		)
-	)
+	);
 }
 
 function acClear(dom, id) {
@@ -285,21 +285,21 @@ function acEdit(dom, id) {
 			() => {
 				dom.index = parseInt(content);
 				dom.setContent("Input." + content, dom.todos[dom.index]['label'],
-					() => dom.focus("Input." + content))
+					() => dom.focus("Input." + content));
 			}
 		)
 	);
 }
 
 function acCancel(dom, id) {
-	var id = dom.index;
+	var index = dom.index;
 	dom.index = -1;
 
-	dom.setContent("Input." + id, "",
+	dom.setContent("Input." + index, "",
 		() => dom.removeClasses(
 			{
-				["View." + id]: "hide",
-				["Todo." + id]: "editing"
+				["View." + index]: "hide",
+				["Todo." + index]: "editing"
 			}
 		)
 	);
@@ -316,7 +316,7 @@ function main() {
 		"Completed": acCompleted,
 		"Clear": acClear,
 		"Edit": acEdit,
-		"Cancel": acCancel,
+		"Cancel": acCancel
 	};
 
 	let head = "";
@@ -330,7 +330,6 @@ function main() {
 			break;
 		default:
 			throw "Unknown mode !!!";
-			break;
 	}
 
 	atlas.launch(newSession, callbacks, readAsset(head));

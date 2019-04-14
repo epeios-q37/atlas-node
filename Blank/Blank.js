@@ -22,10 +22,10 @@ var atlas;
 if (process.env.EPEIOS_SRC) {
 	let epeiosPath = "";
 
-	if (process.platform == 'win32')
-		epeiosPath = "h:/hg/epeios/"
+	if (process.platform === 'win32')
+		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/"
+		epeiosPath = "~/hg/epeios/";
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
@@ -68,14 +68,12 @@ function acShowInput(dom, id) {
 }
 
 function main() {
-	const callbacks = (
-		{
-			"": acConnect,
-			"Submit": acSubmit,
-			"HideInput": acHideInput,
-			"ShowInput": acShowInput,
-		}
-	);
+    const callbacks = {
+		"": acConnect,
+		"Submit": acSubmit,
+		"HideInput": acHideInput,
+		"ShowInput": acShowInput
+    };
 
 	atlas.launch(newSession, callbacks, head );
 }

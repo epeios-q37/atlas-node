@@ -22,10 +22,10 @@ var atlas;
 if (process.env.EPEIOS_SRC) {
 	let epeiosPath = "";
 
-	if (process.platform == 'win32')
-		epeiosPath = "h:/hg/epeios/"
+	if (process.platform === 'win32')
+		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/"
+		epeiosPath = "~/hg/epeios/";
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
@@ -108,7 +108,7 @@ function acSubmitPseudo(dom, id) {
 		(result) => {
 			result = result.trim();
 
-			if (result.length == 0) {
+			if (result.length === 0) {
 				dom.alert("Cannot be empty!",
 					() => dom.setContent("Pseudo", "",
 						() => dom.focus("Pseudo")
@@ -140,7 +140,7 @@ function acSubmitMessage(dom, id) {
 				() => dom.focus("Message",
 					() => {
 						result = result.trim();
-						if (result.length != 0) {
+						if (result.length !== 0) {
 							console.log("'" + dom.pseudo + "' : " + result);
 							messages.push({
 								"pseudo": dom.pseudo,
@@ -150,7 +150,7 @@ function acSubmitMessage(dom, id) {
 						}
 					}
 				)
-			)
+			);
 		}
 	);
 }
@@ -162,14 +162,12 @@ function acUpdate(dom, id) {
 }
 
 function main() {
-	const callbacks = (
-		{
-			"": acConnect,
-			"SubmitPseudo": acSubmitPseudo,
-			"SubmitMessage": acSubmitMessage,
-			"Update": acUpdate,
-		}
-	);
+	const callbacks = {
+		"": acConnect,
+		"SubmitPseudo": acSubmitPseudo,
+		"SubmitMessage": acSubmitMessage,
+		"Update": acUpdate
+	};
 
 	atlas.launch(newSession, callbacks, head);
 

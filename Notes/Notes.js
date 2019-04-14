@@ -22,10 +22,10 @@ var atlas;
 if (process.env.EPEIOS_SRC) {
 	let epeiosPath = "";
 
-	if (process.platform == 'win32')
-		epeiosPath = "h:/hg/epeios/"
+	if (process.platform === 'win32')
+		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/"
+		epeiosPath = "~/hg/epeios/";
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
@@ -49,16 +49,16 @@ class Notes extends DOM {
 			// First one must be empty; it is used as buffer for new entries.
 			{
 				title: '',
-				description: '',
+				description: ''
 			}, {
 				title: 'Improve design',
-				description: "Tastes and colors... (aka «CSS aren't my cup of tea...»)",
+				description: "Tastes and colors… (aka «CSS aren't my cup of tea…»)"
 			}, {
 				title: 'Fixing bugs',
-				description: 'There are bugs ? Really ?',
+				description: 'There are bugs ? Really ?'
 			}, {
 				title: 'Implement new functionalities',
-				description: "Although it's almost perfect..., isn't it ?",
+				description: "Although it's almost perfect…, isn't it ?"
 			}
 		];
 	}
@@ -74,7 +74,7 @@ function push(note, id, xml) {
 	for (var prop in note) {
 		xml.pushTag(prop);
 		xml.setValue(note[prop]);
-		xml.popTag();;
+		xml.popTag();
 	}
 
 	xml.popTag();
@@ -134,7 +134,7 @@ function acSearch(dom, id) {
 function acToggleDescriptions(dom, id) {
 	dom.getContent(id,
 		(result) => {
-			dom.hideDescriptions = result == "true";
+			dom.hideDescriptions = result === "true";
 			handleDescriptions(dom);
 		}
 	);
@@ -156,7 +156,7 @@ function edit(dom, id) {
 		() => dom.setContents(
 			{
 				"Title": dom.notes[dom.id]['title'],
-				"Description": dom.notes[dom.id]['description'],
+				"Description": dom.notes[dom.id]['description']
 			},
 			() => dom.disableElements(
 				viewModeElements,
@@ -193,10 +193,10 @@ function acSubmit(dom, id) {
 			var title = result['Title'].trim();
 			var description = result['Description'];
 
-			if (title != '') {
+			if (title !== '') {
 				dom.notes[dom.id]['title'] = title;
 				dom.notes[dom.id]['description'] = description;
-				if (dom.id == 0) {
+				if (dom.id === 0) {
 					dom.notes.unshift({ title: '', description: '' });
 					displayList(dom);
 				} else {
@@ -217,10 +217,10 @@ function acSubmit(dom, id) {
 function acCancel(dom, id) {
 	dom.getContents(["Title", "Description"],
 		(result) => {
-			if ((dom.notes[dom.id]['title'] != result['Title']) || (dom.notes[dom.id]['description'] != result['Description']))
+			if (dom.notes[dom.id]['title'] !== result['Title'] || dom.notes[dom.id]['description'] !== result['Description'])
 				dom.confirm("Are you sure you want to cancel your modifications ?",
 					(response) => {
-						if (response == true) view(dom);
+						if (response === true) view(dom);
 					}
 				);
 			else
@@ -237,7 +237,7 @@ function main() {
 		"Edit": acEdit,
 		"Delete": acDelete,
 		"Submit": acSubmit,
-		"Cancel": acCancel,
+		"Cancel": acCancel
 	};
 
 	atlas.launch(newSession, callbacks, head);
@@ -673,7 +673,7 @@ const note = `
 			<span class ="list-filter">
 				<input type="text" id="Title" placeholder="Title"/>
 			</span>
-			<textarea id="Description" data-xdh-widget="ckeditor|{enterMode : CKEDITOR.ENTER_BR, linkShowTargetTab: false}|val\\(\\)|"></textarea>
+			<textarea id="Description" data-xdh-widget="ckeditor|{entities: false, enterMode : CKEDITOR.ENTER_BR, linkShowTargetTab: false}|val\\(\\)|"></textarea>
 		</div>
 		<span style="display:inline-block; width: 10px;"></span>
 		<div style="display: flex; justify-content: space-around;">
