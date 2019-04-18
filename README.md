@@ -2,7 +2,7 @@
 
 ![For Node.js](http://q37.info/download/assets/Node.png "Node.js logo")
 
-[![Version 0.8](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.8)](http://q37.info/s/gei0veus)
+[![Version 0.9](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.9)](http://q37.info/s/gei0veus)
 
 A fast and easy way to add a graphical user interface to your *Node.js* programs.
 
