@@ -36,7 +36,7 @@ if (process.env.EPEIOS_SRC) {
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
-	atlas = require('atlastk');
+	atlas = require('atlastk@0.7.0');	// RunKit is not fully updated with the latest version.
 }
 
 const DOM = atlas.DOM;
@@ -64,6 +64,14 @@ function fill(dom) {
 
 	dom.setContents(contents);
 	dom.toggleClass(dom.blank, "hidden");
+}
+
+function convertX(pos) {
+	return pos % 4;
+}
+
+function convertY(pos) {
+	return pos >> 2;  // pos / 4
 }
 
 function drawSquare(xml, x, y) {
@@ -109,7 +117,7 @@ function setTexts(dom) {
 	dom.setLayout("Texts", xml);
 }
 
-function swap(dom, source) {
+function swap(dom, source,id) {
 	dom.getContent(
 		"t" + source,
 		(value) => dom.setContents({
@@ -120,7 +128,29 @@ function swap(dom, source) {
 				[dom.blank]: "hidden",
 				[source]: "hidden"
 				},
-				() => dom.blank = source)));
+				() => {
+					dom.blank = source;
+					testAndSwap(dom, id);
+				})));
+}
+
+function testAndSwap(dom, id) {
+	let ix = convertX(parseInt(id));
+	let iy = convertY(parseInt(id));
+	let bx = convertX(dom.blank);
+	let by = convertY(dom.blank);
+
+	if (ix === bx) {
+		if (by < iy)
+			swap(dom, dom.blank + 4, id);
+		else if (by > iy)
+			swap(dom, dom.blank - 4, id);
+	} else if (iy === by) {
+		if (bx < ix)
+			swap(dom, dom.blank + 1, id);
+		else if (bx > ix)
+			swap(dom, dom.blank - 1, id);
+	}
 }
 
 function scramble(dom) {
@@ -134,10 +164,9 @@ function acConnect(dom, id) {
 	scramble(dom);
 }
 
-function acSwap(dom, id) {
-	id = parseInt(id);
-	if ([id - 1, id + 1, id + 4, id - 4].includes(dom.blank))
-		swap(dom, id);
+function acSwap(dom, id)
+{
+	testAndSwap(dom, id);
 }
 
 function newSession() {

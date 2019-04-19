@@ -34,7 +34,7 @@ if (process.env.EPEIOS_SRC) {
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
-	atlas = require('atlastk');
+	atlas = require('atlastk@0.7.0');	// RunKit is not fully updated with the latest version.
 }
 
 class TodoMVC extends atlas.DOM {

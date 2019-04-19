@@ -34,7 +34,7 @@ if (process.env.EPEIOS_SRC) {
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
-	atlas = require('atlastk');
+	atlas = require('atlastk@0.7.0');	// RunKit is not fully updated with the latest version.
 }
 
 const DOM = atlas.DOM;
@@ -53,13 +53,21 @@ function fill(dom) {
 		let number = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
 
 		if (number !== 0)
-			contents["t" + i] = number;
+			contents["t" + i] = number.toString();	// 'toString()' for compatibility with 'atlastk@0.7.0
 		else
 			dom.blank = i;
 	}
 
 	dom.setContents(contents);
 	dom.toggleClass(dom.blank, "hidden");
+}
+
+function convertX(pos) {
+	return pos % 4;
+}
+
+function convertY(pos) {
+	return pos >> 2;  // pos / 4
 }
 
 function drawSquare(xml, x, y) {
@@ -81,7 +89,7 @@ function drawGrid(dom) {
 		for (let y = 0; y < 4; y++)
 			xml = drawSquare(xml, x, y);
 
-	dom.setLayout("Stones", xml);
+	dom.setLayout("Stones", xml.toString());	// 'toString()' for compatibility with 'atlastk@0.7.0
 }
 
 function setText(xml, x, y) {
@@ -102,21 +110,43 @@ function setTexts(dom) {
 		for (let y = 0; y < 4; y++)
 			xml = setText(xml, x, y);
 
-	dom.setLayout("Texts", xml);
+	dom.setLayout("Texts", xml.toString());	// 'toString()' for compatibility with 'atlastk@0.7.0
 }
 
-function swap(dom, source) {
+function swap(dom, source, id) {
 	dom.getContent(
 		"t" + source,
 		(value) => dom.setContents({
-			["t" + dom.blank]: value,
+			["t" + dom.blank]: value.toString(),	// 'toString()' for compatibility with 'atlastk@0.7.0
 			["t" + source]: ""
 		},
 			() => dom.toggleClasses({
-				[dom.blank]: "hidden",
-				[source]: "hidden"
+				[dom.blank.toString()]: "hidden",	// 'toString()' for compatibility with 'atlastk@0.7.0
+				[source.toString()]: "hidden"		// 'toString()' for compatibility with 'atlastk@0.7.0
 			},
-				() => dom.blank = source)));
+				() => {
+					dom.blank = source;
+					testAndSwap(dom, id);
+				})));
+}
+
+function testAndSwap(dom, id) {
+	let ix = convertX(parseInt(id));
+	let iy = convertY(parseInt(id));
+	let bx = convertX(dom.blank);
+	let by = convertY(dom.blank);
+
+	if (ix === bx) {
+		if (by < iy)
+			swap(dom, dom.blank + 4, id);
+		else if (by > iy)
+			swap(dom, dom.blank - 4, id);
+	} else if (iy === by) {
+		if (bx < ix)
+			swap(dom, dom.blank + 1, id);
+		else if (bx > ix)
+			swap(dom, dom.blank - 1, id);
+	}
 }
 
 function scramble(dom) {
@@ -131,9 +161,7 @@ function acConnect(dom, id) {
 }
 
 function acSwap(dom, id) {
-	id = parseInt(id);
-	if ([id - 1, id + 1, id + 4, id - 4].includes(dom.blank))
-		swap(dom, id);
+	testAndSwap(dom, id);
 }
 
 function newSession() {
