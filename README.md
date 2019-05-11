@@ -2,17 +2,23 @@
 
 ![For Node.js](http://q37.info/download/assets/Node.png "Node.js logo")
 
-[![Version 0.9](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.9)](http://q37.info/s/gei0veus)
-
-A fast and easy way to add a graphical user interface to your *Node.js* programs.
-
-With the *Atlas* toolkit, you obtain hybrid programs. Like desktop applications, the same code can handle both [front and back ends](http://q37.info/s/px7hhztd), and, like web applications, the programs will be reachable from all over the internet.
+[![Version 0.9.2](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.9.2)](http://q37.info/s/gei0veus)
 
 [![NPM badge of the Atlas toolkit](http://nodei.co/npm/atlastk.png)](http://npmjs.com/atlastk/ "NPM package of the Atlas toolkit")
 
+The *Atlas* toolkit, a fast and easy way to add a [graphical user interface](http://q37.info/s/hw9n3pjs) to your *Node.js* programs.
+
+With the *Atlas* toolkit, both [front and back ends](http://q37.info/s/px7hhztd) are handled by the same code, and the programs will also be reachable from all over the internet.
+
+Only basic knowledge of web technologies are required. And, with the *Atlas* toolkit, you can easily add a GUI to programs originally designed to have a [CLI](https://q37.info/s/cnh9nrw9), so the users of this programs can choose which interface they want to use.
+
+If you want to use the *Atlas* toolkit without installing the examples, simply install the [*atlastk* package from *NPM*](http://q37.info/s/h3zjb39j) (`npm install atlastk`). This package has only one internal dependency, with no other dependencies.
+
+You can also use the *Atlas* toolkit on [*Repl.it*](http://q37.info/s/mxmgq3qm), an [online IDE](http://q37.info/s/zzkzbdw7), so you have nothing to install. You will find some examples in the next sections. **Important**: you have to ***fork*** this examples before launching them (by clicking the dedicated button or by modifying the source code), or they won't work properly! See <http://q37.info/s/zbgfjtp9> for more details.
+
 ## *15-puzzle* game
 
-Before we dive into source code, let's begin with a live demonstration of the [*15-puzzle* game](http://q37.info/s/jn9zg3bn) made with *Atlas* toolkit: <http://q37.info/s/bmbgtt47> (other live demonstrations are available [here](http://q37.info/s/zgvcwv7j))!
+Before we dive into source code, let's begin with a live demonstration of the [*15-puzzle* game](http://q37.info/s/jn9zg3bn) made with *Atlas* toolkit: <http://q37.info/s/bmbgtt47> ([more about live demonstrations](http://q37.info/s/zgvcwv7j))!
 
 ## *Hello, World!*
 
@@ -25,7 +31,10 @@ Here's how a [*Hello, World!*](https://en.wikipedia.org/wiki/%22Hello,_World!%22
 - `npm install`
 - `node Hello/Hello.js`
 
-For a live demonstration: <http://q37.info/runkit/Hello>.
+You can also put below source code in a file and launch it after having installed the [*atlastk* package](http://q37.info/s/h3zjb39j) (`npm install atlastk`), or, with absolutely no installation, paste the below code [here](http://q37.info/s/nkcgqn7z), and open the displayed *URL* in a web browser.
+
+
+For a live demonstration: <http://q37.info/s/xzfks7fk>.
 
 Source code:
 
@@ -64,7 +73,7 @@ And here's how the *Atlas* toolkit version of the [*TodoMVC*](http://todomvc.com
 
 ![TodoMVC](http://q37.info/download/TodoMVC.gif "The TodoMVC application made with the Atlas toolkit")
 
-For a live demonstration: <http://q37.info/runkit/TodoMVC>.
+For a live demonstration: <http://q37.info/s/mjqcz4z7>.
 
 ## Content of the repository
 

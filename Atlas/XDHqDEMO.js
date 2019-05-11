@@ -31,6 +31,13 @@ var wPort = "";
 var cgi = "xdh";
 var instances = {};
 
+function REPLit(url) {
+	require('http').createServer(function (req, res) {
+//		res.end("<html><body><iframe style=\"border-style: none; width: 100%;height: 100%\" src=\"" + url + "\"</iframe></body></html>");
+		res.end("<html><body><iframe style=\"border-style: none; width: 100%;height: 100%\" src=\"https://atlastk.org/repl_it.php?url=" + url + "\"</iframe></body></html>");
+	}).listen(8080);
+}
+
 function getEnv(name, value) {
 	let env = process.env[name];
 
@@ -52,7 +59,7 @@ case 'TEST':
 	cgi = "xdh_";
     console.log("\tTEST mode !");
 	break;
-case '':
+case '':case 'REPLit':
 	break;
 default:
 	throw "Bad 'ATK' environment variable value : should be 'DEV' or 'TEST' !";
@@ -64,10 +71,10 @@ pPort = parseInt(getEnv("ATK_PPORT", pPort.toString()));
 wAddr = getEnv("ATK_WADDR", wAddr);
 wPort = getEnv("ATK_WPORT", wPort);
 
-if (wAddr == "")
+if (wAddr === "")
 	wAddr = pAddr;
 
-if (wPort != "")
+if (wPort !== "")
 	wPort = ":" + wPort;
 
 const shared = require('./XDHqSHRD.js');
@@ -137,7 +144,7 @@ function convertSize(size) {
 	var result = Buffer.alloc(1, size & 0x7f);
 	size >>= 7;
 
-	while (size != 0) {
+	while (size !== 0) {
 		result = Buffer.concat([Buffer.alloc(1, (size & 0x7f) | 0x80), result]);
 		size >>= 7;
 	}
@@ -171,7 +178,7 @@ function getQuery(socket) {
 	var buffer;
 	var query = Buffer.alloc(0);
 
-	while (buffer = socket.read())
+	while ((buffer = socket.read()))
 		query = Buffer.concat([query, buffer]);
 
 	return query;
@@ -211,7 +218,7 @@ function standBy(socket, instance) {
 }
 
 function isTokenEmpty() {
-	return ( token == "" ) || ( token.charAt( 0 ) == '&' );
+	return ( token === "" ) || ( token.charAt( 0 ) === '&' );
 }
 
 function createInstance(id, socket, createCallback) {
@@ -233,7 +240,7 @@ function instanceHandshake(instance, query, offset) {
 
 	[errorMessage, offset] = getString(query, offset);
 
-	if (errorMessage != "")
+	if (errorMessage !== "")
 		throw (errorMessage);
 
 	instance._xdh.handshakeDone = true;
@@ -258,7 +265,7 @@ function handleInstance(instance, callbacks, socket, query, offset) {
 	}
 
 	while (cont) {	// Pending callbacks are handled as long as they don't have a return value.
-		if (instance._xdh.callback != undefined) {
+		if (instance._xdh.callback !== undefined) {
 			let type = instance._xdh.type;
 			instance._xdh.type = types.UNDEFINED;
 			if (type === types.VOID)
@@ -289,7 +296,7 @@ function serve(socket, createCallback, callbacks) {
 	
 	[id, offset] = getByte(query, offset);
 
-	if (id == 255) {	// Value corresponding a new front-end.
+	if (id === 255) {	// Value corresponding a new front-end.
 		[id, offset] = getByte(query, offset);	// Id of the new front-end.
 
 		if (id in instances)
@@ -320,14 +327,21 @@ function ignition(socket, createCallback, callbacks) {
 	if (isTokenEmpty())
 		throw getString(query, offset)[0];	// Displays error message.
 
-	if (wPort != ":0") {
-		let completeURL = "http://" + wAddr + wPort + "/" + cgi + ".php?_token=" + token;
+	if (wPort !== ":0") {
+		let completeURL = "https://" + wAddr + wPort + "/" + cgi + ".php?_token=" + token;
 
 		console.log(completeURL);
 		console.log(new Array(completeURL.length + 1).join('^'));
-		console.log("Open above URL in a web browser. Enjoy!");
+		console.log("Open above URL in a web browser. Enjoy!\n");
 
-		open(completeURL);
+		if (getEnv("ATK") === "REPLit") {
+			REPLit(completeURL);
+//			console.log("\nIF THE PROGRAM DOES NOT WORK PROPERLY, PLEASE SEE http://q37.info/s/zbgfjtp9");
+			console.log("IF THE PROGRAM DOES NOT WORK PROPERLY, YOU PROBABLY FORGOT TO FORK!");
+			console.log("See http://q37.info/s/zbgfjtp9 for more details.");
+
+		} else
+			open(completeURL);
 	}
 }
 
@@ -341,12 +355,12 @@ function demoHandshake(socket, createCallback, callbacks, head) {
 
 	[error, offset] = getString(query, offset);
 
-	if (error != "")
+	if (error !== "")
 		throw error;
 
 	[notification, offset] = getString(query, offset);
 
-	if (notification != "")
+	if (notification !== "")
 		console.log(notification);
 
 	socket.write(handleString(token));
@@ -369,135 +383,6 @@ function pseudoServer(createCallback, callbacks, head) {
 		socket.write(handleString(demoProtocolVersion));
 
 		socket.once('readable', () => demoHandshake(socket, createCallback, callbacks, head));
-	});
-}
-
-// ********** OLD !!! **********
-function pseudoServer_(createCallback, callbacks, head) {
-	var client = new net.Socket();
-
-	client.connect(pPort, pAddr, () => {
-		let relaunch = true;
-
-		client.write(handleString(token));
-
-		if ( isTokenEmpty() ) {
-			if (head === undefined)
-				head = "";
-			client.write(handleString(head));
-		}
-
-		client.on('readable', () => {
-			if (client._xdhDOM === undefined) {
-				let offset = 0;
-				let query = getQuery(client);
-
-				if (isTokenEmpty()) {
-					[token, offset] = getString(query, offset);
-
-					if (isTokenEmpty())
-						throw getString(query, offset)[0];
-
-					if (wPort != ":0") {
-						let completeURL = "http://" + wAddr + wPort + "/" + cgi + ".php?_token=" + token;
-
-						console.log(completeURL);
-                        console.log(new Array(completeURL.length + 1).join('^'));
-						console.log("Open above URL in a web browser. Enjoy!");
-
-						open(completeURL);
-					}
-				} else {
-					let returnedToken = "";
-
-					[returnedToken, offset] = getString(query, offset);
-
-					if (returnedToken == "")
-						throw getString(query, offset)[0];
-
-					if (returnedToken != token)
-						throw "Unmatched token !!!";
-				}
-
-				client._xdhDOM = createCallback();
-				client._xdhDOM._xdhSocket = client;
-				client._xdhDOM._xdhIsDEMO = true;
-				client._xdhDOM._xdhType = types.UNDEFINED;
-				client.write(addString(addString(Buffer.from(""), mainProtocolLabel), mainProtocolVersion));
-			} else if (relaunch) {
-                let query = "";
-				let offset = 0;
-				let errorMessage = "";
-				let notification = "";
-
-				pseudoServer(createCallback, callbacks);	// Useless to give 'head', as it will no more be used.
-
-				query = getQuery(client);
-
-				[errorMessage, offset] = getString(query, offset);
-
-				if (errorMessage != "")
-					throw (errorMessage);
-
-				[notification, offset] = getString(query, offset);
-
-				if (notification != "")
-					console.log(notification);
-
-				getString(query, offset);	// Language.
-
-				client.write(handleString("NJS"));
-
-				relaunch = false;
-			} else {
-				let query;
-
-				let cont = true;
-
-				query = getQuery(client);
-
-				if (client._xdhDOM._xdhType === types.UNDEFINED) {
-					let id, action;
-
-					id = getId(query);
-					action = getAction(query);
-
-					callbacks[action](client._xdhDOM, id);
-
-					if (client._xdhDOM._xdhType === types.UNDEFINED) {
-						cont = false;
-						standBy(client);
-					}  else
-						cont = client._xdhDOM._xdhType === types.VOID;
-				}
-
-				while (cont) {
-					if (client._xdhDOM._xdhCallback != undefined) {
-						let type = client._xdhDOM._xdhType;
-						client._xdhDOM._xdhType = types.UNDEFINED;
-						if (type === types.VOID)
-							client._xdhDOM._xdhCallback();
-						else
-							client._xdhDOM._xdhCallback(getResponse(query, type));
-
-						if (client._xdhDOM._xdhType === types.UNDEFINED) {
-							cont = false;
-							standBy(client);
-						} else if (client._xdhDOM._xdhType !== types.VOID)
-							cont = false;
-					} else {
-						if (client._xdhDOM._xdhType !== types.VOID)
-							getResponse(query, client._xdhDOM._xdhType);
-						client._xdhDOM._xdhType = types.UNDEFINED;
-						cont = false;
-						standBy(client);
-					}
-				}
-			}
-		});
-	});
-	client.on('error', (err) => {
-		throw "Unable to connect to '" + pAddr + ":" + pPort + "' !!!";
 	});
 }
 

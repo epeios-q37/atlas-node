@@ -3,18 +3,52 @@
 - Common to **all** bindings,
 - does **not** concern the native code,
 
+## 2019-05-09
+
+- *Node.js*:
+	- changing some stuff related to *Repl.it*,
+	- switching to 0.9.2,
+
+## 2019-05-07
+
+- *Python*:
+  - `setLayoutXSL(…)` can now take a string containing the XSL data,
+  - switching to 0.9.6,
+
+## 2019-05-02
+
+- *Python*:
+  - modification of the *Repl.it* related stuff,
+  - `CreateHTML(…)` becomes an alias of `CreateXML(…)`,
+  - switching to 0.9.5
+
+## 2019-04-30
+
+- *Node.js*:
+  - adding some features related to *Repl.it*,
+  - switching to 0.9.1
+- *Python*:
+  - adding some features related to *Repl.it*,
+  - switching to 0.9.4
+
+## 2019-04-24
+
+- *Python*:
+  - modifications to fit with *Pypi*,
+  - switching to 0.9.1,
+
 ## 2019-04-18
 
 - switching to 0.9.0 due to a *RunKit* issue,
 
 ## 2019-04-17
 
-- *Node.js*, *Python*
+- *Node.js*, *Python*:
   - switching to 0.8.0
 
 ## 2019-04-16
 
-- *Node.js*, *Python*
+- *Node.js*, *Python*:
   - `setLayout(...)` accepts now an *XML* (from the *Atlas* toolkit) object in addition to *HTML* string.
 
 ## 2019-04-03
