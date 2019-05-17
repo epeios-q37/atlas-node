@@ -18,7 +18,7 @@ You can also use the *Atlas* toolkit on [*Repl.it*](http://q37.info/s/mxmgq3qm),
 
 ## *15-puzzle* game
 
-Before we dive into source code, let's begin with a live demonstration of the [*15-puzzle* game](http://q37.info/s/jn9zg3bn) made with *Atlas* toolkit: <http://q37.info/s/bmbgtt47> ([more about live demonstrations](http://q37.info/s/zgvcwv7j))!
+Before we dive into source code, let's begin with a live demonstration of the [*15-puzzle* game](http://q37.info/s/jn9zg3bn) made with *Atlas* toolkit: <http://q37.info/s/dggtbvd4> ([more about live demonstrations](http://q37.info/s/zgvcwv7j))!
 
 ## *Hello, World!*
 
