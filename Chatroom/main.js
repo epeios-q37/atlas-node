@@ -63,14 +63,14 @@ function displayMessages(dom) {
 
 	if (i >= dom.lastMessage) {
 		xml.pushTag("Messages");
-		xml.setAttribute( 'pseudo', dom.pseudo );
+		xml.putAttribute( 'pseudo', dom.pseudo );
 
 		while (i >= dom.lastMessage) {
 			message = messages[i];
 			xml.pushTag('Message');
-			xml.setAttribute( 'id', i );
-			xml.setAttribute( 'pseudo', message["pseudo"] );
-			xml.setValue(message["content"]);
+			xml.putAttribute( 'id', i );
+			xml.putAttribute( 'pseudo', message["pseudo"] );
+			xml.putValue(message["content"]);
 			xml.popTag();
 			i--;
 		}
@@ -79,11 +79,7 @@ function displayMessages(dom) {
 
 		xml.popTag();
 
-		dom.createElement("span",
-			(id) => dom.setLayoutXSL(id, xml, "Messages.xsl",
-				() => dom.insertChild(id, "Board")
-			)
-		);
+		dom.prependLayoutXSL("Board", xml, "Messages.xsl" );
 	}
 }
 

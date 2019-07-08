@@ -76,11 +76,11 @@ function convertY(pos) {
 
 function drawSquare(xml, x, y) {
 	xml.pushTag("use");
-	xml.setAttribute("id", y * 4 + x);
-	xml.setAttribute("data-xdh-onevent", "Swap");
-	xml.setAttribute("x", x * 100 + 24);
-	xml.setAttribute("y", y * 100 + 24);
-	xml.setAttribute("xlink:href", "#stone");
+	xml.putAttribute("id", y * 4 + x);
+	xml.putAttribute("data-xdh-onevent", "Swap");
+	xml.putAttribute("x", x * 100 + 24);
+	xml.putAttribute("y", y * 100 + 24);
+	xml.putAttribute("xlink:href", "#stone");
 	xml.popTag();
 
 	return xml;
@@ -98,10 +98,9 @@ function drawGrid(dom) {
 
 function setText(xml, x, y) {
 	xml.pushTag("tspan");
-	xml.setAttribute("id", "t" + (y * 4 + x));
-	xml.setAttribute("x", x * 100 + 72);
-	xml.setAttribute("y", y * 100 + 90);
-//	xml.setValue(x + y * 4);
+	xml.putAttribute("id", "t" + (y * 4 + x));
+	xml.putAttribute("x", x * 100 + 72);
+	xml.putAttribute("y", y * 100 + 90);
 	xml.popTag();
 
 	return xml;

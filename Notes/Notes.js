@@ -73,11 +73,9 @@ function newSession() {
 
 function push(note, id, xml) {
 	xml.pushTag('Note');
-	xml.setAttribute('id', id);
+	xml.putAttribute('id', id);
 	for (var prop in note) {
-		xml.pushTag(prop);
-		xml.setValue(note[prop]);
-		xml.popTag();
+		xml.putTagAndValue(prop, note[prop]);
 	}
 
 	xml.popTag();

@@ -39,14 +39,19 @@ class XML {
 	popTag() {
 		this.xml_ += "<";
 	}
-	setAttribute(name, value) {
+	putAttribute(name, value) {
 		this.xml_ += "A";
 		this.writeString_(name);
 		this.writeString_(value);
 	}
-	setValue(value) {
+	putValue(value) {
 		this.xml_ += "V";
 		this.writeString_(value);
+	}
+	putTagAndValue(tag, value) {
+		this.pushTag(tag);
+		this.putValue(value);
+		this.popTag();
 	}
 	toString() {
 		return this.xml_;

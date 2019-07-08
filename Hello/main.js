@@ -40,12 +40,12 @@ if (process.env.EPEIOS_SRC) {
 }
 
 const callbacks = {
-	"": (dom, id) => dom.setLayout("", atlas.readAsset("Main.html"),
+	"": (dom) => dom.setLayout("", atlas.readAsset("Main.html"),
         () => dom.focus("input")),
-	"Submit": (dom, id) => dom.getContent( "input",
+	"Submit": (dom) => dom.getContent( "input",
         (name) => dom.alert("Hello, " + name + "!",
             () => dom.focus("input") ) ),
-	"Clear": (dom, id) => dom.confirm("Are you sure ?",
+	"Clear": (dom) => dom.confirm("Are you sure ?",
         (answer) => { if (answer) dom.setContent("input", ""); dom.focus("input");})
 };
 

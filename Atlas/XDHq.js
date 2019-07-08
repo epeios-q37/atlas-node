@@ -147,24 +147,39 @@ class XDH {
         // see the 'alert' primitive in 'XDHqXDH'.
 	}
 	confirm(message, callback) {
-		call(this, "Confirm_1", types.STRING, 1, message, 0, (answer) => callback(answer == "true"));
+		call(this, "Confirm_1", types.STRING, 1, message, 0, (answer) => callback(answer === "true"));
 	}
-	setLayout_(id, xml, xsl, callback) {
+	handleLayout_(command, id, xml, xsl, callback) {
 		if (typeof xml !== "string")
 			xml = xml.toString();
 
-		call(this, "SetLayout_1", types.VOID, 3, id, xml, xsl, 0, callback);
+		call(this, command, types.VOID, 3, id, xml, xsl, 0, callback);
+	}
+	prependLayout(id, html, callback) {
+		this.handleLayout_("PrependLayout_1", id, html, "", callback);
 	}
 	setLayout(id, html, callback) {
-		this.setLayout_(id, html, "", callback);
+		this.handleLayout_("SetLayout_1", id, html, "", callback);
 	}
-	setLayoutXSL(id, xml, xslFilename, callback) {
+	appendLayout(id, html, callback) {
+		this.handleLayout_("AppendLayout_1", id, html, "", callback);
+	}
+	handleLayoutXSL_(command, id, xml, xslFilename, callback) {
 		let xslURL = xslFilename;
 
 		if (this._xdh.isDEMO)
 			xslURL = "data:text/xml;charset=utf-8," + encodeURIComponent(readXSLAsset(xslFilename));
 
-		this.setLayout_(id, xml, xslURL, callback);
+		this.handleLayout_(command, id, xml, xslURL, callback);
+	}
+	prependLayoutXSL(id, xml, xsl, callback) {
+		this.handleLayoutXSL_("PrependLayout_1", id, xml, xsl, callback);
+	}
+	setLayoutXSL(id, xml, xsl, callback) {
+		this.handleLayoutXSL_("SetLayout_1", id, xml, xsl, callback);
+	}
+	appendLayoutXSL(id, xml, xsl, callback) {
+		this.handleLayoutXSL_("AppendLayout_1", id, xml, xsl, callback);
 	}
 	getContents(ids, callback) {
 		call(this, "GetContents_1", types.STRINGS, 0, 1, ids,
@@ -189,6 +204,7 @@ class XDH {
 	{
 		call(this, "SetTimeout_1", types.VOID, 2, delay.toString(), action, 0, callback);
 	}
+/*
 	createElement_(name, id, callback ) {
         call(this, "CreateElement_1", types.STRING, 2, name, id, 0, callback);
     }
@@ -201,6 +217,7 @@ class XDH {
 	insertChild(child, id, callback) {
 		call(this, "InsertChild_1", types.VOID, 2, child, id, 0, callback);
 	}
+*/
 	dressWidgets(id, callback) {
 		call(this, "DressWidgets_1", types.VOID, 1, id, 0, callback);
 	}

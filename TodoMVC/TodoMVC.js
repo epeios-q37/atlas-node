@@ -109,9 +109,9 @@ function displayTodos(dom) {
 	while (i < dom.todos.length) {
 		todo = dom.todos[i];
 		xml.pushTag('Todo');
-		xml.setAttribute('id', i);
-		xml.setAttribute('completed', todo["completed"]);
-		xml.setValue(todo["label"]);
+		xml.putAttribute('id', i);
+		xml.putAttribute('completed', todo["completed"]);
+		xml.putValue(todo["label"]);
 		xml.popTag();
 		i++;
 	}

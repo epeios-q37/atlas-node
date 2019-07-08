@@ -2,7 +2,7 @@
 
 ![For Node.js](http://q37.info/download/assets/Node.png "Node.js logo")
 
-[![Version 0.9.2](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.9.2)](http://q37.info/s/gei0veus)
+[![Version 0.10.0](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.10.0)](http://q37.info/s/gei0veus)
 
 [![NPM badge of the Atlas toolkit](http://nodei.co/npm/atlastk.png)](http://npmjs.com/atlastk/ "NPM package of the Atlas toolkit")
 
@@ -93,6 +93,7 @@ where `<Name>` is the name of the example (`15-puzzle`, `Blank`, `Chatroom`…).
 The *Atlas* toolkit is also available for:
 
 - *Java*: <http://github.com/epeios-q37/atlas-java>
+- *Perl*: <http://github.com/epeios-q37/atlas-perl>
 - *PHP*: <http://github.com/epeios-q37/atlas-php>
 - *Python*: <http://github.com/epeios-q37/atlas-python>
 - *Ruby*: <http://github.com/epeios-q37/atlas-ruby>

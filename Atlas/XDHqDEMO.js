@@ -246,6 +246,19 @@ function instanceHandshake(instance, query, offset) {
 	instance._xdh.handshakeDone = true;
 }
 
+function callCallback_(callback, instance, id, action) {
+	switch (callback.length) {
+		case 0:
+			return callback();
+		case 1:
+			return callback(instance);
+		case 2:
+			return callback(instance, id);
+		default:
+			return callback(instance, id, action);
+	}
+}
+
 function handleInstance(instance, callbacks, socket, query, offset) {
 	let cont = true;
 
@@ -255,7 +268,9 @@ function handleInstance(instance, callbacks, socket, query, offset) {
 		[id, offset] = getString(query, offset);
 		[action, offset] = getString(query, offset);
 
-		callbacks[action](instance, id);
+		if ((action === "") || !("_PreProcess" in callbacks) || callCallback_(callbacks("_Preprocess", instance, id, action)))
+			if (callCallback_(callbacks[action], instance, id, action) && ("_PreProcess" in callbacks))
+				callCallback_(callbacks("_Postprocess", instance, id, action));
 
 		if (instance._xdh.type === types.UNDEFINED) {
 			cont = false;

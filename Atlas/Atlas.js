@@ -97,7 +97,7 @@ if (xdhq.isDev()) {
 }
 
 if (process.argv.length > 2)
-	if ( process.argv[2] == "W" )
+	if ( process.argv[2] === "W" )
 		mode = modes.DEMO;
 	else
 		mode = modes.PROD;
@@ -166,7 +166,16 @@ function launch(createCallback, callbacks, head, gui) {
 	}
 }
 
+
 function createXML(rootTag) {
+	return new xdhq.XML(rootTag);
+}
+
+function createHTML(rootTag) {
+
+	if (typeof rootTag !== "string")
+		rootTag = "";
+
 	return new xdhq.XML(rootTag);
 }
 
