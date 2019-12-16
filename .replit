@@ -1,2 +1,2 @@
 language = "bash"
-run = "bash main"
+run = "[ -d node_modules ] || npm install; bash main"
