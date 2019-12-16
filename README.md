@@ -21,7 +21,7 @@ Only basic knowledge of web technologies are required. And, with the *Atlas* too
 
 If you want to use the *Atlas* toolkit without installing the examples, simply install the [*atlastk* package from *NPM*](http://q37.info/s/h3zjb39j) (`npm install atlastk`). This package has only one internal dependency, with no other dependencies.
 
-You can also use the *Atlas* toolkit on [*Repl.it*](http://q37.info/s/mxmgq3qm), an [online IDE](http://q37.info/s/zzkzbdw7), so you have nothing to install, as you will se in the next section.
+You can also use the *Atlas* toolkit on [*Repl.it*](http://q37.info/s/mxmgq3qm), an [online IDE](http://q37.info/s/zzkzbdw7), so you have nothing to install, as you will see in the next section.
 
 ## Live demonstrations
 
