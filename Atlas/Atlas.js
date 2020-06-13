@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2018 Claude SIMON (https://q37.info/s/rmnmqd49)
+Copyright (c) 2017 Claude SIMON (https://q37.info/s/rmnmqd49)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,15 +32,19 @@ var xdhelcqPath = "";
 var xdhelcqBin = "";
 var electronBin = "";
 
-if (process.env.EPEIOS_SRC) {
+const process = require("process");
+// Comment below line to see where file and line where the exception occurs.
+process.on('uncaughtException', (err) => {console.log(err);process.exit()})
+
+if (process.env.Q37_EPEIOS) {
 	let epeiosToolsPath = "";
 	let binPath = "";
 	if (process.platform == 'win32') {
 		epeiosToolsPath = "h:/hg/epeios/tools/";
 		binPath = "h:/bin/";
 	} else {
-		epeiosToolsPath = "~/hg/epeios/tools/";
-		binPath = ~/bin/
+		epeiosToolsPath = path.join(process.env.Q37_EPEIOS,"tools/");
+		binPath = "/home/csimon/bin/"
 	}
 
 	xdhqId = epeiosToolsPath + "xdhq/wrappers/NJS/XDHq.js";
@@ -49,7 +53,7 @@ if (process.env.EPEIOS_SRC) {
 	xdhelcqBin = path.join(binPath, "xdhqxdh");
 	electronBin = xdhelcqPath + "node_modules/electron/dist/electron";
 } else {
-	xdhqId = "xdhq";
+	xdhqId = "./XDHq.js";
 	/*
 	xdhwebqId = "xdhwebq";
 	xdhelcqPath = path.dirname(require.resolve("xdhelcq"));
@@ -73,7 +77,7 @@ function launchDesktop(dir,prod) {
 			process.exit(code)
 		});
 	} else
-		throw "DEMO mode not available with desktop interface !!!";
+		throw "FaaS mode not available with desktop interface !!!";
 }
 
 const guis = {
@@ -88,17 +92,17 @@ module.exports.guis = guis;
 var mode;
 var defaultGUI;
 
-if (xdhq.isDev()) {
+if (false && xdhq.isDev()) {    // Deactivated until native version active again.
 	mode = modes.PROD;
 	defaultGUI = guis.DESKTOP;
 } else {
-	mode = modes.DEMO;
+	mode = modes.FAAS;
 	defaultGUI = guis.NONE;
 }
 
 if (process.argv.length > 2)
 	if ( process.argv[2] === "W" )
-		mode = modes.DEMO;
+		mode = modes.FAAS;
 	else
 		mode = modes.PROD;
 		
@@ -181,6 +185,7 @@ function createHTML(rootTag) {
 
 module.exports.launch = launch;
 module.exports.createXML = createXML;
+module.exports.broadcastAction = xdhq.broadcastAction;
 module.exports.DOM = xdhq.XDH;
 
 module.exports.readAsset = xdhq.readAsset;

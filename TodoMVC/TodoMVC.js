@@ -24,17 +24,17 @@ SOFTWARE.
 
 var atlas;
 
-if (process.env.EPEIOS_SRC) {
+if (process.env.Q37_EPEIOS) {
 	let epeiosPath = "";
 
 	if (process.platform === 'win32')
 		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/";
+		epeiosPath = process.env.Q37_EPEIOS;
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
-	atlas = require('atlastk@0.7.0');	// RunKit is not fully updated with the latest version.
+	atlas = require('atlastk');
 }
 
 class TodoMVC extends atlas.DOM {
@@ -318,9 +318,9 @@ function main() {
 const head = `
 <title>Atlas • TodoMVC</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEUEAvyEhsxERuS8urQsKuycnsRkYtzc2qwUFvRUVtysrrx0ctTs6qTMyrSUksQ0NuyciPBdAAABHklEQVR42mNgwAa8zlxjDd2A4POfOXPmzZkFCAH2M8fNzyALzDlzg2ENssCbMwkMOsgCa858YOjBKxBzRoHhD7LAHiBH5swCT9HQ6A9ggZ4zp7YCrV0DdM6pBpAAG5Blc2aBDZA68wCsZPuZU0BDH07xvHOmAGKKvgMP2NA/Zw7ADIYJXGDgLQeBBSCBFu0aoAPYQUadMQAJAE29zwAVWMCWpgB08ZnDQGsbGhpsgCqBQHNfzRkDEIPlzFmo0T5nzoMovjPHoAK8Zw5BnA5yDosDSAVYQOYMKIDZzkoDzagAsjhqzjRAfXTmzAQgi/vMQZA6pjtAvhEk0E+ATWRRm6YBZuScCUCNN5szH1D4TGdOoSrggtiNAH3vBBjwAQCglIrSZkf1MQAAAABJRU5ErkJggg==" />
-<!-- Only both lines below change between 'PROD' and 'DEMO' files. -->
-<link rel="stylesheet" href="http://q37.info/download/assets/TodoMVC/todomvc-common/base.css">
-<link rel="stylesheet" href="http://q37.info/download/assets/TodoMVC/todomvc-app-css/index.css">
+<!-- Only both lines below change between 'SlfH' and 'FaaS' files. -->
+<link rel="stylesheet" href="https://q37.info/download/assets/TodoMVC/todomvc-common/base.css">
+<link rel="stylesheet" href="https://q37.info/download/assets/TodoMVC/todomvc-app-css/index.css">
 <style>
 	.hide {
 		display: none;

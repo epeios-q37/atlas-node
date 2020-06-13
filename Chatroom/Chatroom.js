@@ -24,17 +24,17 @@ SOFTWARE.
 
 var atlas;
 
-if (process.env.EPEIOS_SRC) {
+if (process.env.Q37_EPEIOS) {
 	let epeiosPath = "";
 
 	if (process.platform === 'win32')
 		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/";
+		epeiosPath = process.env.Q37_EPEIOS;
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
-	atlas = require('atlastk@0.7.0');	// RunKit is not fully updated with the latest version.
+	atlas = require('atlastk');
 }
 
 const DOM = atlas.DOM;
@@ -87,9 +87,7 @@ function newSession() {
 function acConnect(dom, id) {
 	dom.setLayout("", body,
 		() => dom.focus("Pseudo",
-			() => dom.setTimeout(1000, "Update",
-				() => displayMessages(dom)
-			)
+			() => displayMessages(dom)
 		)
 	);
 }
@@ -147,6 +145,7 @@ function acSubmitMessage(dom, id) {
 								"content": result
 							});
 							displayMessages(dom);
+							atlas.broadcastAction("Update");
 						}
 					}
 				)
@@ -155,18 +154,12 @@ function acSubmitMessage(dom, id) {
 	);
 }
 
-function acUpdate(dom, id) {
-	dom.setTimeout(1000, "Update",
-		() => displayMessages(dom)
-	);
-}
-
 function main() {
 	const callbacks = {
 		"": acConnect,
 		"SubmitPseudo": acSubmitPseudo,
 		"SubmitMessage": acSubmitMessage,
-		"Update": acUpdate
+		"Update": (dom) => displayMessages(dom)
 	};
 
 	atlas.launch(newSession, callbacks, head);

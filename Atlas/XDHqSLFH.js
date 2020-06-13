@@ -80,7 +80,7 @@ function launch(callback, tagsAndCallbacks, head ) {
 
 	njsq._call(xdhq, 1, tags, callbacks);
 
-	njsq._call(xdhq, 2, callback, "53752");
+	njsq._call(xdhq, 2, callback, "53700");
 }
 
 module.exports.componentInfo = () => njsq._componentInfo(xdhq);

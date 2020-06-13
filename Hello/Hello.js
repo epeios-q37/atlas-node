@@ -29,17 +29,17 @@ SOFTWARE.
 
 var atlas;
 
-if (process.env.EPEIOS_SRC) {
+if (process.env.Q37_EPEIOS) {
 	let epeiosPath = "";
 
     if (process.platform === 'win32')
         epeiosPath = "h:/hg/epeios/";
     else
-        epeiosPath = "~/hg/epeios/";
+        epeiosPath = process.env.Q37_EPEIOS;
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
-	atlas = require('atlastk@0.7.0');	// RunKit is not fully updated with the latest version.
+	atlas = require('atlastk');
 }
 
 const head = `
@@ -54,10 +54,16 @@ const body = `
   <div style="display: flex; justify-content: space-around; margin: 5px auto auto auto;">
    <button data-xdh-onevent="Submit">Submit</button>
    <button data-xdh-onevent="Clear">Clear</button>
+   <button data-xdh-onevent="Test">Test</button>
   </div>
  </fieldset>
 </div>
 `;
+
+function acTest(dom) {
+    console.log("!!!!!!!!!!! Test");
+    dom.setContent("input", "Test", () => console.log("callback!"));
+}
 
 const callbacks = {
     "": (dom) => dom.setLayout("", body,
@@ -66,7 +72,8 @@ const callbacks = {
         (name) => dom.alert("Hello, " + name + "!",
             () => dom.focus("input"))),
     "Clear": (dom) => dom.confirm("Are you sure ?",
-        (answer) => { if (answer) dom.setContent("input", ""); dom.focus("input"); })
+        (answer) => { if (answer) dom.setContent("input", ""); dom.focus("input"); }),
+    "Test": acTest,
 };
 
 atlas.launch(() => new atlas.DOM(), callbacks, head);

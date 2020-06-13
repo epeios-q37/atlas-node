@@ -26,13 +26,13 @@ SOFTWARE.
 
 var atlas;
 
-if (process.env.EPEIOS_SRC) {
+if (process.env.Q37_EPEIOS) {
 	let epeiosPath = "";
 
 	if (process.platform === 'win32')
 		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/";
+		epeiosPath = process.env.Q37_EPEIOS;
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {

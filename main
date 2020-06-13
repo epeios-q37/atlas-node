@@ -9,8 +9,6 @@ ord() {
   LC_CTYPE=C printf '%d' "'$1"
 }
 
-[ -d /home/runner ] && export ATK="REPLit"
-
 DEMOS=(Blank Hello Chatroom 15-puzzle Notes TodoMVC)
 
 export DEMOS_AMOUNT=${#DEMOS[@]}

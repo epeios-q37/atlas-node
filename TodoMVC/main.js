@@ -31,13 +31,13 @@ of the TodoMVC application (http://todomvc.com/).
 
 var atlas;
 
-if (process.env.EPEIOS_SRC) {
+if (process.env.Q37_EPEIOS) {
 	let epeiosPath = "";
 
 	if (process.platform === 'win32')
 		epeiosPath = "h:/hg/epeios/";
 	else
-		epeiosPath = "~/hg/epeios/";
+		epeiosPath = process.env.Q37_EPEIOS;
 
 	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
@@ -327,11 +327,11 @@ function main() {
 	let head = "";
 
 	switch (atlas.mode) {
-		case atlas.modes.PROD:
-			head = "HeadPROD.html";
+		case atlas.modes.SLFH:
+			head = "HeadSlfH.html";
 			break;
-		case atlas.modes.DEMO:
-			head = "HeadDEMO.html";
+		case atlas.modes.FAAS:
+			head = "HeadFaaS.html";
 			break;
 		default:
 			throw "Unknown mode !!!";
