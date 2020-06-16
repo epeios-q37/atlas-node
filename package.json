@@ -1,6 +1,6 @@
 {
   "name": "atlas-node",
-  "version": "2020.06.13",
+  "version": "2020.06.16",
   "author": "Claude SIMON (http://q37.info/contact/)",
   "description": "Atlas toolkit for Node.js",
   "dependencies": {
