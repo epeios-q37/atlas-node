@@ -63,7 +63,7 @@ atlas.launch(() => new atlas.DOM(), callbacks);
 
 [![Little demonstration](https://q37.info/download/assets/Hello.gif "A basic example")](https://q37.info/s/st7gccd4)
 
-### Try it yourself, now
+### Too good to be true? Try it now - it's quick and easy!
 
 #### Online, with nothing to install
 
