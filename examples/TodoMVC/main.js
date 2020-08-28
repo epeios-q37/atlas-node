@@ -128,7 +128,7 @@ function displayTodos(dom) {
 
 	xml.popTag();
 
-	dom.setLayoutXSL("Todos", xml, "Todos.xsl",
+	dom.inner("Todos", xml, "Todos.xsl",
 		() => handleCount(dom)
 	);
 }
@@ -138,7 +138,7 @@ function newSession() {
 }
 
 function acConnect(dom, id) {
-	dom.setLayout("", readAsset("Main.html"),
+	dom.inner("", readAsset("Main.html"),
 		() => dom.focus("Input",
 			() => dom.disableElements(["HideActive", "HideCompleted"],
 				() => displayTodos(dom)

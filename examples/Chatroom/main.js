@@ -79,7 +79,7 @@ function displayMessages(dom) {
 
 		xml.popTag();
 
-		dom.prependLayoutXSL("Board", xml, "Messages.xsl" );
+		dom.begin("Board", xml, "Messages.xsl" );
 	}
 }
 
@@ -88,7 +88,7 @@ function newSession() {
 }
 
 function acConnect(dom, id) {
-	dom.setLayout("", readAsset("Main.html"),
+	dom.inner("", readAsset("Main.html"),
 		() => dom.focus("Pseudo",
 			() => displayMessages(dom)
 		)

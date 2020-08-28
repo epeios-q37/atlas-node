@@ -112,7 +112,7 @@ function displayList(dom) {
 
 	xml.popTag();
 
-	dom.setLayoutXSL("Notes", xml, "Notes.xsl",
+	dom.begin("Notes", xml, "Notes.xsl",
 		() => dom.setContents(contents,
 			() => dom.enableElements(viewModeElements,
 				() => handleDescriptions(dom)
@@ -122,7 +122,7 @@ function displayList(dom) {
 }
 
 function acConnect(dom, id) {
-	dom.setLayout("", readAsset( "Main.html" ),
+	dom.inner("", readAsset( "Main.html" ),
 		() => displayList(dom)
 	);
 }
@@ -157,7 +157,7 @@ function view(dom) {
 
 function edit(dom, id) {
 	dom.id = parseInt(id);
-	dom.setLayout("Edit." + id, readAsset( "Note.html" ),
+	dom.inner("Edit." + id, readAsset( "Note.html" ),
 		() => dom.setContents(
 			{
 				"Title": dom.notes[dom.id]['title'],

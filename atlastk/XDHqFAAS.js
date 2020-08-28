@@ -48,7 +48,7 @@ function getEnv(name, value) {
 		return "";
 }
 
-switch (getEnv("ATK") ) {
+switch (getEnv("ATK").toUpperCase()) {
 case 'DEV':
 	pAddr = "localhost";
 	wPort = "8080";
@@ -57,7 +57,7 @@ case 'DEV':
 case 'TEST':
     console.log("\tTEST mode !");
 	break;
-case '':case 'REPLit':
+case '':case 'REPLIT':case 'NONE':
 	break;
 default:
 	throw "Bad 'ATK' environment variable value : should be 'DEV' or 'TEST' !";
@@ -565,9 +565,11 @@ function handleURL(url) {
 	console.log(new Array(url.length + 1).join('^'));
 	console.log("Open above URL in a web browser. Enjoy!\n");
 
-	if (getEnv("ATK") === "REPLit") {
+	let ATK = getEnv("ATK").toUpperCase();
+
+	if (ATK === "REPLIT") {
 		REPLit(url);
-	} else
+	} else if ( ATK !== "NONE" )
 		open(url);	
 }
 

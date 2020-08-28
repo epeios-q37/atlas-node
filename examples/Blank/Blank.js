@@ -51,7 +51,7 @@ function newSession() {
 }
 
 function acConnect(dom, id) {
-	dom.setLayout("", body);
+	dom.inner("", body);
 }
 
 function acSubmit(dom, id) {

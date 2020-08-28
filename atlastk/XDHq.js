@@ -151,6 +151,9 @@ class XDH {
 	executeStrings(script, callback) {
 		this.execute_(types.STRINGS, script, callback);
 	}
+	flush(id, callback) {
+		call(this, "Flush_1", types.STRING, id, callback);
+	}
 	alert(message, callback) {
         call(this, "Alert_1", types.STRING, message, callback);
         // For the return value being 'STRING' instead of 'VOID',
@@ -165,13 +168,13 @@ class XDH {
 
 		call(this, "HandleLayout_1", types.VOID, variant, id, xml, xsl, callback);
 	}
-	prependLayout(id, html, callback) {
+	prependLayout(id, html, callback) {	// Depredated!
 		this.handleLayout_("Prepend", id, html, "", callback);
 	}
-	setLayout(id, html, callback) {
+	inner(id, html, callback) {	// Depredated!
 		this.handleLayout_("Set", id, html, "", callback);
 	}
-	appendLayout(id, html, callback) {
+	appendLayout(id, html, callback) {	// Depredated!
 		this.handleLayout_("Append", id, html, "", callback);
 	}
 	handleLayoutXSL_(variant, id, xml, xslFilename, callback) {
@@ -182,14 +185,42 @@ class XDH {
 
 		this.handleLayout_(variant, id, xml, xslURL, callback);
 	}
-	prependLayoutXSL(id, xml, xsl, callback) {
+	prependLayoutXSL(id, xml, xsl, callback) {	// Depredated!
 		this.handleLayoutXSL_("Prepend", id, xml, xsl, callback);
 	}
-	setLayoutXSL(id, xml, xsl, callback) {
+	setLayoutXSL(id, xml, xsl, callback) {	// Depredated!
 		this.handleLayoutXSL_("Set", id, xml, xsl, callback);
 	}
-	appendLayoutXSL(id, xml, xsl, callback) {
+	appendLayoutXSL(id, xml, xsl, callback) {	// Depredated!
 		this.handleLayoutXSL_("Append", id, xml, xsl, callback);
+	}
+	layout_(variant, id, xml, xslOrCallback, callback) {
+		let xsl = "";
+
+		if ( typeof xslOrCallback === "string")
+			xsl = xslOrCallback;
+		else
+			callback = xslOrCallback;
+
+		if ((xsl !== "") && this._xdh.isFAAS)
+			xsl = "data:text/xml;charset=utf-8," + encodeURIComponent(readXSLAsset(xsl));
+
+		call(this, "HandleLayout_1", types.VOID, variant, id, typeof xml === "string" ? xml : xml.toString(), xsl, callback);
+	}
+	before(id,xml,xslOrCallback,callback) {
+		this.layout_("beforebegin", id, xml, xslOrCallback, callback);
+	}
+	begin(id,xml,xslOrCallback,callback) {
+		this.layout_("afterbegin", id, xml, xslOrCallback, callback);
+	}
+	inner(id,xml,xslOrCallback,callback) {
+		this.layout_("inner", id, xml, xslOrCallback, callback);
+	}
+	end(id,xml,xslOrCallback,callback) {
+		this.layout_("beforeend", id, xml, xslOrCallback, callback);
+	}
+	after(id,xml,xslOrCallback,callback) {
+		this.layout_("afterend", id, xml, xslOrCallback, callback);
 	}
 	getContents(ids, callback) {
 		call(this, "GetContents_1", types.STRINGS, ids,
@@ -279,6 +310,24 @@ class XDH {
 	}
 	focus(id, callback) {
 		call(this, "Focus_1", types.VOID, id, callback);
+	}
+	parent(id, callback) {
+		return call(this, "Parent_1", types.STRING, id, callback);
+	}
+	firstChild(id, callback) {
+		return call(this, "FirstChild_1", types.STRING, id, callback);
+	}
+	lastChild(id, callback) {
+		return call(this, "LastChild_1", types.STRING, id, callback);
+	}
+	previousSibling(id, callback) {
+		return call(this, "PreviousSibling_1", types.STRING, id, callback);
+	}
+	nextSibling(id, callback) {
+		return call(this, "NextSibling_1", types.STRING, id, callback);
+	}
+	scrollTo(id, callback) {
+		call(this, "ScrollTo_1", types.VOID, id, callback);
 	}
 }
 

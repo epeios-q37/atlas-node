@@ -1,15 +1,12 @@
 # *Node.js* version of the *Atlas* toolkit
 
-<!--![For Node.js](https://q37.info/download/assets/Node.png "Node.js logo")-->
-
 [![Run on Repl.it](https://repl.it/badge/github/epeios-q37/atlas-node)](https://q37.info/s/st7gccd4)
-[![Version 0.11](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.11)](http://github.com/epeios-q37/atlas-node/)
+[![Version 0.12](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.12)](http://github.com/epeios-q37/atlas-node/)
 [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-node.svg?style=social)](https://github.com/epeios-q37/atlas-node/stargazers)
 [![license: MIT](https://img.shields.io/github/license/epeios-q37/atlas-node?color=yellow)](https://github.com/epeios-q37/atlas-node/blob/master/LICENSE)
 [![Documentation](https://img.shields.io/static/v1?label=documentation&message=atlastk.org&color=ff69b4)](https://atlastk.org)
 
 [![NPM badge of the Atlas toolkit](https://nodei.co/npm/atlastk.png)](https://npmjs.com/atlastk/ "NPM package of the Atlas toolkit")
-
 
 > The [*Atlas* toolkit](https://atlastk.org) is available for:
 > 
@@ -20,6 +17,9 @@
 > | [*Perl*](https://q37.info/s/4nvmwjgg) |<https://github.com/epeios-q37/atlas-perl> | <https://q37.info/s/h3h34zgq> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-perl.svg?style=social)](https://github.com/epeios-q37/atlas-perl/stargazers) |
 > | [*Python*](https://q37.info/s/pd7j9k4r) | <https://github.com/epeios-q37/atlas-python> | <https://q37.info/s/vwpsw73v> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-python.svg?style=social)](https://github.com/epeios-q37/atlas-python/stargazers) |
 > | [*Ruby*](https://q37.info/s/gkfj3zpz) | <https://github.com/epeios-q37/atlas-ruby> | <https://q37.info/s/9thdtmjg> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-ruby.svg?style=social)](https://github.com/epeios-q37/atlas-ruby/stargazers) |
+
+***Note for Repl.it users (online demonstrations)***: **after the first demonstration, you may have to click the reload button top left in the frame containing the QR code to display it for the other demonstrations.**
+
 
 
 
@@ -46,7 +46,7 @@ const body = `
 `;
 
 const callbacks = {
-    "": (dom, id) => dom.setLayout("", body,
+    "": (dom, id) => dom.inner("", body,
         () => dom.focus("input")),
     "Submit": (dom, id) => dom.getContent("input",
         (name) => dom.alert("Hello, " + name + "!",
@@ -63,7 +63,7 @@ atlas.launch(() => new atlas.DOM(), callbacks);
 
 [![Little demonstration](https://q37.info/download/assets/Hello.gif "A basic example")](https://q37.info/s/st7gccd4)
 
-### Try it yourself, now
+### Too good to be true? Try it now - it's quick and easy!
 
 #### Online, with nothing to install
 

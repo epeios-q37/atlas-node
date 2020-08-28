@@ -1,9 +1,9 @@
 {
     "_comment": "Used for the publication of the 'atlastk' module on NPM",
     "name": "atlastk",
-    "version": "0.11.1",
+    "version": "0.12.0",
     "author": "Claude SIMON (http://q37.info/contact/)",
-    "description": "Web technologies for your apps without front-end JavaScript.",
+    "description": "The handy yet powerful GUI toolkit.",
     "main": "Atlas.js",
     "dependencies": {},
     "devDependencies": {},

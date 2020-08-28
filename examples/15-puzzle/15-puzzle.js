@@ -53,7 +53,7 @@ function fill(dom) {
 		let number = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
 
 		if (number !== 0)
-			contents["t" + i] = number.toString();	// 'toString()' for compatibility with 'atlastk@0.7.0
+			contents["t" + i] = number;
 		else
 			dom.blank = i;
 	}
@@ -89,7 +89,7 @@ function drawGrid(dom) {
 		for (let y = 0; y < 4; y++)
 			xml = drawSquare(xml, x, y);
 
-	dom.setLayout("Stones", xml.toString());	// 'toString()' for compatibility with 'atlastk@0.7.0
+	dom.inner("Stones", xml);
 }
 
 function setText(xml, x, y) {
@@ -109,19 +109,19 @@ function setTexts(dom) {
 		for (let y = 0; y < 4; y++)
 			xml = setText(xml, x, y);
 
-	dom.setLayout("Texts", xml.toString());	// 'toString()' for compatibility with 'atlastk@0.7.0
+	dom.inner("Texts", xml);
 }
 
 function swap(dom, source, id) {
 	dom.getContent(
 		"t" + source,
 		(value) => dom.setContents({
-			["t" + dom.blank]: value.toString(),	// 'toString()' for compatibility with 'atlastk@0.7.0
+			["t" + dom.blank]: value,
 			["t" + source]: ""
 		},
 			() => dom.toggleClasses({
-				[dom.blank.toString()]: "hidden",	// 'toString()' for compatibility with 'atlastk@0.7.0
-				[source.toString()]: "hidden"		// 'toString()' for compatibility with 'atlastk@0.7.0
+				[dom.blank]: "hidden",
+				[source]: "hidden"
 			},
 				() => {
 					dom.blank = source;
@@ -155,7 +155,7 @@ function scramble(dom) {
 }
 
 function acConnect(dom, id) {
-	dom.setLayout("", body);
+	dom.inner("", body);
 	scramble(dom);
 }
 

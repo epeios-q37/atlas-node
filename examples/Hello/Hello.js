@@ -66,7 +66,7 @@ function acTest(dom) {
 }
 
 const callbacks = {
-    "": (dom) => dom.setLayout("", body,
+    "": (dom) => dom.inner("", body,
         () => dom.focus("input")),
     "Submit": (dom) => dom.getContent("input",
         (name) => dom.alert("Hello, " + name + "!",

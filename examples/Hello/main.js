@@ -40,7 +40,7 @@ if (process.env.Q37_EPEIOS) {
 }
 
 const callbacks = {
-	"": (dom) => dom.setLayout("", atlas.readAsset("Main.html"),
+	"": (dom) => dom.inner("", atlas.readAsset("Main.html"),
         () => dom.focus("input")),
 	"Submit": (dom) => dom.getContent( "input",
         (name) => dom.alert("Hello, " + name + "!",

@@ -93,7 +93,7 @@ function drawGrid(dom) {
 		for (let y = 0; y < 4; y++)
 			xml = drawSquare(xml, x, y);
 
-	dom.setLayout("Stones", xml);
+	dom.inner("Stones", xml);
 }
 
 function setText(xml, x, y) {
@@ -113,7 +113,7 @@ function setTexts(dom) {
 		for (let y = 0; y < 4; y++)
 			xml = setText(xml, x, y);
 
-	dom.setLayout("Texts", xml);
+	dom.inner("Texts", xml);
 }
 
 function swap(dom, source,id) {
@@ -159,7 +159,7 @@ function scramble(dom) {
 }
 
 function acConnect(dom, id) {
-	dom.setLayout("", readAsset("Main.html"));
+	dom.inner("", readAsset("Main.html"));
 	scramble(dom);
 }
 
