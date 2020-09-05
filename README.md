@@ -1,6 +1,6 @@
 # *Node.js* version of the *Atlas* toolkit
 
-[***Click this badge to try it now in your browser*** : ![Run on Repl.it](https://q37.info/s/kpm7xhfm.png)](https://q37.info/s/st7gccd4)
+[![Run on Repl.it](https://q37.info/s/kpm7xhfm.png)](https://q37.info/s/st7gccd4)
 
 [![Version 0.12](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.12&style=for-the-badge)](http://github.com/epeios-q37/atlas-node/)
 [![license: MIT](https://img.shields.io/github/license/epeios-q37/atlas-node?color=yellow&style=for-the-badge)](https://github.com/epeios-q37/atlas-node/blob/master/LICENSE)
