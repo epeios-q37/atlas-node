@@ -12,13 +12,13 @@
 
 > The [*Atlas* toolkit](https://atlastk.org) is available for:
 > 
-> | Language | *GitHub* repository| Online démonstrations | Stars 
-> |-|-|-|-|
-> | [*Java*](https://q37.info/s/qtnkp9w4) |<https://github.com/epeios-q37/atlas-java> | <https://q37.info/s/3vwk3h3n> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-java.svg?style=social)](https://github.com/epeios-q37/atlas-java/stargazers) |
-> | [*Node.js*](https://q37.info/s/3d7hr733) | <https://github.com/epeios-q37/atlas-node> | <https://q37.info/s/st7gccd4> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-node.svg?style=social)](https://github.com/epeios-q37/atlas-node/stargazers) |
-> | [*Perl*](https://q37.info/s/4nvmwjgg) |<https://github.com/epeios-q37/atlas-perl> | <https://q37.info/s/h3h34zgq> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-perl.svg?style=social)](https://github.com/epeios-q37/atlas-perl/stargazers) |
-> | [*Python*](https://q37.info/s/pd7j9k4r) | <https://github.com/epeios-q37/atlas-python> | <https://q37.info/s/vwpsw73v> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-python.svg?style=social)](https://github.com/epeios-q37/atlas-python/stargazers) |
-> | [*Ruby*](https://q37.info/s/gkfj3zpz) | <https://github.com/epeios-q37/atlas-ruby> | <https://q37.info/s/9thdtmjg> | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-ruby.svg?style=social)](https://github.com/epeios-q37/atlas-ruby/stargazers) |
+> | Language | *GitHub* stars  |*GitHub* repository | Online démonstrations
+> |-|:-:|-|-|
+> | [*Java*](https://q37.info/s/qtnkp9w4) | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-java.svg?style=social)](https://github.com/epeios-q37/atlas-java/stargazers) |<https://github.com/epeios-q37/atlas-java> | <https://q37.info/s/3vwk3h3n> |
+> | [*Node.js*](https://q37.info/s/3d7hr733) | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-node.svg?style=social)](https://github.com/epeios-q37/atlas-node/stargazers) | <https://github.com/epeios-q37/atlas-node> | <https://q37.info/s/st7gccd4> |
+> | [*Perl*](https://q37.info/s/4nvmwjgg) | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-perl.svg?style=social)](https://github.com/epeios-q37/atlas-perl/stargazers) |<https://github.com/epeios-q37/atlas-perl> | <https://q37.info/s/h3h34zgq> |
+> | [*Python*](https://q37.info/s/pd7j9k4r) | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-python.svg?style=social)](https://github.com/epeios-q37/atlas-python/stargazers) | <https://github.com/epeios-q37/atlas-python> | <https://q37.info/s/vwpsw73v> |
+> | [*Ruby*](https://q37.info/s/gkfj3zpz) | [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-ruby.svg?style=social)](https://github.com/epeios-q37/atlas-ruby/stargazers) | <https://github.com/epeios-q37/atlas-ruby> | <https://q37.info/s/9thdtmjg> |
 
 ---
 
