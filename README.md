@@ -1,13 +1,14 @@
 # *Node.js* version of the *Atlas* toolkit
 
-[![Run on Repl.it](https://repl.it/badge/github/epeios-q37/atlas-node)](https://q37.info/s/st7gccd4)  
+[***Click to try it now in your browser*** : ![Run on Repl.it](https://repl.it/badge/github/epeios-q37/atlas-node)](https://q37.info/s/st7gccd4)
+
 [![Version 0.12](https://img.shields.io/static/v1.svg?&color=90b4ed&label=Version&message=0.12&style=for-the-badge)](http://github.com/epeios-q37/atlas-node/)
+[![license: MIT](https://img.shields.io/github/license/epeios-q37/atlas-node?color=yellow&style=for-the-badge)](https://github.com/epeios-q37/atlas-node/blob/master/LICENSE)
+[![Documentation](https://img.shields.io/static/v1?label=documentation&message=atlastk.org&color=ff69b4&style=for-the-badge)](https://atlastk.org)  
 [![Stars](https://img.shields.io/github/stars/epeios-q37/atlas-node.svg?style=for-the-badge)](https://github.com/epeios-q37/atlas-node/stargazers)
 [![Forks](https://img.shields.io/github/forks/epeios-q37/atlas-node.svg?style=for-the-badge)](https://github.com/epeios-q37/atlas-node/network/members)
-[![license: MIT](https://img.shields.io/github/license/epeios-q37/atlas-node?color=yellow&style=for-the-badge)](https://github.com/epeios-q37/atlas-node/blob/master/LICENSE)
-[![Documentation](https://img.shields.io/static/v1?label=documentation&message=atlastk.org&color=ff69b4&style=for-the-badge)](https://atlastk.org)
 
-[![NPM badge of the Atlas toolkit](https://nodei.co/npm/atlastk.png)](https://npmjs.com/atlastk/ "NPM package of the Atlas toolkit")
+[![Downloads](https://img.shields.io/npm/dm/atlastk?label=&style=for-the-badge)![Version](https://img.shields.io/npm/v/atlastk?style=for-the-badge)](https://q37.info/s/h3zjb39j)
 
 > The [*Atlas* toolkit](https://atlastk.org) is available for:
 > 
@@ -21,7 +22,7 @@
 
 ---
 
-***Note for Repl.it users (online demonstrations)***: **after having launched a demonstration, you may have to click the refresh button (red arrow on picture below) top left in the frame containing the QR code to display it for the other demonstrations.**
+***Note for Repl.it users (online demonstrations)***: **after the first demonstration, you may have to click the refresh button (red arrow on picture below) to display the QR code for the other demonstrations.**
 
 [![The refresh button](https://q37.info/s/vsc3c7gc.png "The button to click to display the QR code")](http://q37.info/s/zbgfjtp9)
 
