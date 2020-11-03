@@ -4,4 +4,4 @@
 # Il est renommé en '.replit' lors de la publication.
 
 language = "bash"
-run = "ATK=none [ -d node_modules ] || npm install; bash main"
+run = "[ -d node_modules ] || npm install;ATK=none bash main"
