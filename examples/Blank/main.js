@@ -59,8 +59,8 @@ function acConnect(dom, id) {
 }
 
 function acSubmit(dom, id) {
-	dom.getContent("Pattern",
-		(result) => dom.setContent("Pattern", result.toUpperCase())
+	dom.getValue("Pattern",
+		(result) => dom.setValue("Pattern", result.toUpperCase())
 	);
 }
 

@@ -106,13 +106,13 @@ function handlePseudo( pseudo )
 }
 
 function acSubmitPseudo(dom, id) {
-	dom.getContent("Pseudo",
+	dom.getValue("Pseudo",
 		(result) => {
 			result = result.trim();
 
 			if (result.length === 0) {
 				dom.alert("Cannot be empty!",
-					() => dom.setContent("Pseudo", "",
+					() => dom.setValue("Pseudo", "",
 						() => dom.focus( "Pseudo" )
 					)
 				);
@@ -121,12 +121,12 @@ function acSubmitPseudo(dom, id) {
 				dom.addClass("PseudoButton", "hidden");
 				dom.disableElements(["Pseudo", "PseudoButton"]);
 				dom.enableElements(["Message", "MessageButton"]);
-				dom.setContent("Pseudo", result);
+				dom.setValue("Pseudo", result);
 				dom.focus("Message");
 				console.log("\t>>>> New user: " + result);
 			} else {
 				dom.alert("Already used!",
-					() => dom.setContent("Pseudo", result,
+					() => dom.setValue("Pseudo", result,
 						() => dom.focus( "Pseudo" )
 					)
 				);
@@ -136,9 +136,9 @@ function acSubmitPseudo(dom, id) {
 }
 
 function acSubmitMessage(dom, id) {
-	dom.getContent("Message",
+	dom.getValue("Message",
 		(result) => {
-			dom.setContent("Message", "",
+			dom.setValue("Message", "",
 				() => dom.focus("Message",
 					() => {
 						result = result.trim();

@@ -42,11 +42,11 @@ if (process.env.Q37_EPEIOS) {
 const callbacks = {
 	"": (dom) => dom.inner("", atlas.readAsset("Main.html"),
         () => dom.focus("input")),
-	"Submit": (dom) => dom.getContent( "input",
+	"Submit": (dom) => dom.getValue( "input",
         (name) => dom.alert("Hello, " + name + "!",
             () => dom.focus("input") ) ),
 	"Clear": (dom) => dom.confirm("Are you sure ?",
-        (answer) => { if (answer) dom.setContent("input", ""); dom.focus("input");})
+        (answer) => { if (answer) dom.setValue("input", ""); dom.focus("input");})
 };
 
 atlas.launch(() => new atlas.DOM(), callbacks, atlas.readAsset('Head.html'));

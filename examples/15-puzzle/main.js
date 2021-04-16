@@ -62,7 +62,7 @@ function fill(dom) {
 			dom.blank = i;
 	}
 
-	dom.setContents(contents);
+	dom.setValues(contents);
 	dom.toggleClass(dom.blank, "hidden");
 }
 
@@ -117,9 +117,9 @@ function setTexts(dom) {
 }
 
 function swap(dom, source,id) {
-	dom.getContent(
+	dom.getValue(
 		"t" + source,
-		(value) => dom.setContents({
+		(value) => dom.setValues({
 				["t" + dom.blank]: value,
 				["t" + source]: ""
 			},

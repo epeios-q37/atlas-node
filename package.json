@@ -1,10 +1,10 @@
 {
   "name": "atlas-node",
-  "version": "2020.09.14",
+  "version": "2021.04.16",
   "author": "Claude SIMON (http://q37.info/contact/)",
   "description": "Atlas toolkit for Node.js",
   "dependencies": {
-    "atlastk": "0.12.0"
+    "atlastk": "0.12.1"
   },
   "repository": {
     "type": "git",

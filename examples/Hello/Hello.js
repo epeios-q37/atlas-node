@@ -62,17 +62,17 @@ const body = `
 
 function acTest(dom) {
     console.log("!!!!!!!!!!! Test");
-    dom.setContent("input", "Test", () => console.log("callback!"));
+    dom.setValue("input", "Test", () => console.log("callback!"));
 }
 
 const callbacks = {
     "": (dom) => dom.inner("", body,
         () => dom.focus("input")),
-    "Submit": (dom) => dom.getContent("input",
+    "Submit": (dom) => dom.getValue("input",
         (name) => dom.alert("Hello, " + name + "!",
             () => dom.focus("input"))),
     "Clear": (dom) => dom.confirm("Are you sure ?",
-        (answer) => { if (answer) dom.setContent("input", ""); dom.focus("input"); }),
+        (answer) => { if (answer) dom.setValue("input", ""); dom.focus("input"); }),
     "Test": acTest,
 };
 

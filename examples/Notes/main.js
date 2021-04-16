@@ -112,8 +112,8 @@ function displayList(dom) {
 
 	xml.popTag();
 
-	dom.begin("Notes", xml, "Notes.xsl",
-		() => dom.setContents(contents,
+	dom.inner("Notes", xml, "Notes.xsl",
+		() => dom.setValues(contents,
 			() => dom.enableElements(viewModeElements,
 				() => handleDescriptions(dom)
 			)
@@ -128,7 +128,7 @@ function acConnect(dom, id) {
 }
 
 function acSearch(dom, id) {
-	dom.getContent("Pattern",
+	dom.getValue("Pattern",
 		(result) => {
 			dom.pattern = result.toLowerCase();
 			displayList(dom);
@@ -137,7 +137,7 @@ function acSearch(dom, id) {
 }
 
 function acToggleDescriptions(dom, id) {
-	dom.getContent(id,
+	dom.getValue(id,
 		(result) => {
 			dom.hideDescriptions = result === "true";
 			handleDescriptions(dom);
@@ -149,7 +149,7 @@ function view(dom) {
 	dom.enableElements(
 		viewModeElements,
 		() => {
-			dom.setContent("Edit." + dom.id, "");
+			dom.setValue("Edit." + dom.id, "");
 			dom.id = -1;
 		}
 	);
@@ -158,7 +158,7 @@ function view(dom) {
 function edit(dom, id) {
 	dom.id = parseInt(id);
 	dom.inner("Edit." + id, readAsset( "Note.html" ),
-		() => dom.setContents(
+		() => dom.setValues(
 			{
 				"Title": dom.notes[dom.id]['title'],
 				"Description": dom.notes[dom.id]['description']
@@ -172,7 +172,7 @@ function edit(dom, id) {
 }
 
 function acEdit(dom, id) {
-	dom.getContent(id,
+	dom.getMark(id,
 		(result) => edit(dom, result)
 	);
 }
@@ -180,7 +180,7 @@ function acEdit(dom, id) {
 function acDelete(dom, id) {
 	dom.confirm("Are you sure you want to delete this entry ?",
 		(response) => {
-			if (response) dom.getContent(id,
+			if (response) dom.getMark(id,
 				(result) => {
 					dom.notes.splice(parseInt(result), 1);
 					displayList(dom);
@@ -191,7 +191,7 @@ function acDelete(dom, id) {
 }
 
 function acSubmit(dom, id) {
-	dom.getContents(["Title", "Description"],
+	dom.getValues(["Title", "Description"],
 		(result) => {
 			var title = result['Title'].trim();
 			var description = result['Description'];
@@ -206,7 +206,7 @@ function acSubmit(dom, id) {
 					let contents = {};
 					contents["Title." + dom.id] = title;
 					contents["Description." + dom.id] = description;
-					dom.setContents(contents,
+					dom.setValues(contents,
 						() => view(dom)
 					);
 				}
@@ -218,7 +218,7 @@ function acSubmit(dom, id) {
 }
 
 function acCancel(dom, id) {
-	dom.getContents(["Title", "Description"],
+	dom.getValues(["Title", "Description"],
 		(result) => {
 			if (dom.notes[dom.id]['title'] !== result['Title'] || dom.notes[dom.id]['description'] !== result['Description'])
 				dom.confirm("Are you sure you want to cancel your modifications ?",

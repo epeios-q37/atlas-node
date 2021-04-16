@@ -222,15 +222,15 @@ class XDH {
 	after(id,xml,xslOrCallback,callback) {
 		this.layout_("afterend", id, xml, xslOrCallback, callback);
 	}
-	getContents(ids, callback) {
+	getContents(ids, callback) {	// Deprecated
 		call(this, "GetContents_1", types.STRINGS, ids,
 			(contents) => callback(unsplit(ids, contents))
 		);
 	}
-	getContent(id, callback) {
+	getContent(id, callback) {	// Deprecated
 		return this.getContents([id], (result) => { callback(result[id]); });
 	}
-	setContents(idsAndContents, callback) {
+	setContents(idsAndContents, callback) {	// Deprecated
 		var ids = [];
 		var contents = [];
 
@@ -238,8 +238,46 @@ class XDH {
 
 		call(this, "SetContents_1", types.VOID, ids, contents, callback);
 	}
-	setContent(id, content, callback) {
+	setContent(id, content, callback) {	// Deprecated
 		return this.setContents(merge(id, content), callback);
+	}
+	getValues(ids, callback) {
+		call(this, "GetValues_1", types.STRINGS, ids,
+			(values) => callback(unsplit(ids, values))
+		);
+	}
+	getValue(id, callback) {
+		return this.getValues([id], (result) => { callback(result[id]); });
+	}
+	setValues(idsAndValues, callback) {
+		var ids = [];
+		var values = [];
+
+		split(idsAndValues, ids, values);
+
+		call(this, "SetValues_1", types.VOID, ids, values, callback);
+	}
+	setValue(id, value, callback) {
+		return this.setValues(merge(id, value), callback);
+	}
+	getMarks(ids, callback) {
+		call(this, "GetMarks_1", types.STRINGS, ids,
+			(marks) => callback(unsplit(ids, marks))
+		);
+	}
+	getMark(id, callback) {
+		return this.getMarks([id], (result) => { callback(result[id]); });
+	}
+	setMarks(idsAndMarks, callback) {
+		var ids = [];
+		var marks = [];
+
+		split(idsAndMarks, ids, marks);
+
+		call(this, "SetMarks_1", types.VOID, ids, marks, callback);
+	}
+	setMark(id, mark, callback) {
+		return this.setMarks(merge(id, mark), callback);
 	}
 /*
 	createElement_(name, id, callback ) {
