@@ -23,9 +23,9 @@
 
 ---
 
-## A GUI with *Node.js* in less then 10 minutes
+## A GUI with *Node.js* in a couple of minutes
 
-Click to see how to program this ["Hello, World!"](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program) with *Node.js* in less then 10 minutes:
+Click the animation to see a screencast of programming this ["Hello, World!"](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program) with *Node.js* in a matter of minutes:
 
 [![Building a GUI in with *Node.js* in less then 10 minutes](https://q37.info/s/qp4z37pg.gif)](https://q37.info/s/4pcpvrhz)
 
@@ -47,7 +47,7 @@ const BODY = `
 </fieldset>
 `;
 
-const callbacks = {
+const CALLBACKS = {
  "": (dom, id) => dom.inner("", BODY,
   () => dom.focus("Input")),
  "Submit": (dom, id) => dom.getValue("Input",
@@ -56,7 +56,7 @@ const callbacks = {
     () => dom.focus("Input")))),
 };
 
-atlastk.launch(() => new atlastk.DOM(), callbacks);
+atlastk.launch(() => new atlastk.DOM(), CALLBACKS);
 ```
 
 ### See for yourself right now - it's quick and easy!
