@@ -35,7 +35,7 @@ Source code:
 
 ```javascript
 const atlastk = require('atlastk');
-
+ 
 const BODY = `
 <fieldset>
  <input id="Input" data-xdh-onevent="Submit" value="World"/>
@@ -46,16 +46,16 @@ const BODY = `
  </fieldset>
 </fieldset>
 `;
-
+ 
 const CALLBACKS = {
  "": (dom, id) => dom.inner("", BODY,
   () => dom.focus("Input")),
  "Submit": (dom, id) => dom.getValue("Input",
-  (name) => dom.setValue("Output", "Hello, " + name + "!",
+  (name) => dom.begin("Output", "<div>Hello, " + name + "!</div>",
    () => dom.setValue("Input", "",
     () => dom.focus("Input")))),
 };
-
+ 
 atlastk.launch(() => new atlastk.DOM(), CALLBACKS);
 ```
 
@@ -63,13 +63,15 @@ atlastk.launch(() => new atlastk.DOM(), CALLBACKS);
 
 #### Online, with nothing to install
 
+To run above "Hello, World!" program directly in your browser, as seen in corresponding video, follow this link: <https://replit.com/@AtlasTK/hello-node>.
+
 Thanks to [*Replit*](https://q37.info/s/mxmgq3qm), an [online IDE](https://q37.info/s/zzkzbdw7), you can write and run programs using the *Atlas* toolkit directly in your web browser, without having to install *Node.js* on your computer [![About online demonstrations](https://img.shields.io/badge/about-online%20demonstrations-informational)](https://q37.info/s/sssznrb4).
 
-To see some examples, like the following [*TodoMVC*](http://todomvc.com/) application or the above ["Hello, World!"](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program) program, simply:
+To see more examples, like the following [*TodoMVC*](http://todomvc.com/), simply:
 - go [here](https://q37.info/s/st7gccd4) (also accessible with the [![Run on Repl.it](https://q37.info/s/kpm7xhfm.png)](https://q37.info/s/st7gccd4) button at the top of this page),
--  click on the green `run` button,
--  choose the demonstration to launch,
--  open the then displayed URL in a browser (should be clickable), 
+- click on the green `run` button,
+- choose the demonstration to launch,
+- open the then displayed URL in a browser (should be clickable), 
 - … and, as you wish, run your own tests directly in your browser, by modifying the code of the examples or by writing your own code.
 
 [![TodoMVC](https://q37.info/download/TodoMVC.gif "The TodoMVC application made with the Atlas toolkit")](https://q37.info/s/st7gccd4)
@@ -118,3 +120,4 @@ To launch an example (from within the repository):
 - launch `node <Name>/main.js`,
 
 where `<Name>` is the name of the example (`15-puzzle`, `Blank`, `Chatroom`…). For example `node Hello/main.js`.
+
