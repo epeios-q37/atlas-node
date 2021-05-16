@@ -563,7 +563,7 @@ const i = {
 function handleURL(url) {
 	console.log(url);
 	console.log(new Array(url.length + 1).join('^'));
-	console.log("Open above URL in a web browser. Enjoy!\n");
+	console.log("Open above URL in a web browser (click, right click or copy/paste). Enjoy!\n");
 
 	let ATK = getEnv("ATK").toUpperCase();
 
