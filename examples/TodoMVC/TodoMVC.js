@@ -350,7 +350,7 @@ const body = `
 <section class="todoapp">
 	<header class="header">
 		<h1>todos</h1>
-		<input id="Input" class="new-todo" placeholder="What needs to be done?" autofocus="" data-xdh-onevent="Submit"/>
+		<input id="Input" class="new-todo" placeholder="What needs to be done?" autofocus="" xdh:onevent="Submit"/>
 	</header>
 	<section class="main">
 		<input class="toggle-all" type="checkbox"/>
@@ -361,16 +361,16 @@ const body = `
 		<span class="todo-count" id="Count"></span>
 		<ul class="filters">
 			<li>
-				<a style="cursor: pointer;" id="All" class="selected" data-xdh-onevent="All">All</a>
+				<a style="cursor: pointer;" id="All" class="selected" xdh:onevent="All">All</a>
 			</li>
 			<li>
-				<a style="cursor: pointer;" id="Active" data-xdh-onevent="Active">Active</a>
+				<a style="cursor: pointer;" id="Active" xdh:onevent="Active">Active</a>
 			</li>
 			<li>
-				<a style="cursor: pointer;" id="Completed" data-xdh-onevent="Completed">Completed</a>
+				<a style="cursor: pointer;" id="Completed" xdh:onevent="Completed">Completed</a>
 			</li>
 		</ul>
-		<button class="clear-completed" data-xdh-onevent="Clear">Clear completed</button>
+		<button class="clear-completed" xdh:onevent="Clear">Clear completed</button>
 	</footer>
 </section>
 <footer class="info">
@@ -399,7 +399,7 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 		<xsl:apply-templates select="Todo"/>
 	</xsl:template>
 	<xsl:template match="Todo">
-		<li id="Todo.{@id}" data-xdh-onevents="(dblclick|Edit)" data-xdh-mark="{@id}">
+		<li id="Todo.{@id}" xdh:onevents="(dblclick|Edit)" xdh:mark="{@id}">
 			<xsl:attribute name="class">
 				<xsl:text>view</xsl:text>
 				<xsl:choose>
@@ -412,7 +412,7 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 				</xsl:choose>
 			</xsl:attribute>
 			<span id="View.{@id}">
-				<input class="toggle" type="checkbox" id="{@id}" data-xdh-onevent="Toggle">
+				<input class="toggle" type="checkbox" id="{@id}" xdh:onevent="Toggle">
 					<xsl:if test="@completed='true'">
 						<xsl:attribute name="checked"/>
 					</xsl:if>
@@ -420,9 +420,9 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 				<label id="Label.{@id}">
 					<xsl:value-of select="."/>
 				</label>
-				<button data-xdh-value="{@id}" class="destroy" data-xdh-onevent="Destroy"/>
+				<button xdh:value="{@id}" class="destroy" xdh:onevent="Destroy"/>
 			</span>
-			<input id="Input.{@id}" class="edit" data-xdh-onevent="Submit" data-xdh-onevents="(keyup|Cancel|Esc)(blur|Submit)"/>
+			<input id="Input.{@id}" class="edit" xdh:onevent="Submit" xdh:onevents="(keyup|Cancel|Esc)(blur|Submit)"/>
 		</li>
 	</xsl:template>
 </xsl:stylesheet>

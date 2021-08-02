@@ -50,11 +50,11 @@ const head = `
 const body = `
 <div style="display: table; margin: 50px auto auto auto;">
  <fieldset>
-  <input id="input" maxlength="20" placeholder="Enter a name here" type="text" data-xdh-onevent="Submit" value="World"/>
+  <input id="input" maxlength="20" placeholder="Enter a name here" type="text" xdh:onevent="Submit" value="World"/>
   <div style="display: flex; justify-content: space-around; margin: 5px auto auto auto;">
-   <button data-xdh-onevent="Submit">Submit</button>
-   <button data-xdh-onevent="Clear">Clear</button>
-   <button data-xdh-onevent="Test">Test</button>
+   <button xdh:onevent="Submit">Submit</button>
+   <button xdh:onevent="Clear">Clear</button>
+   <button xdh:onevent="Test">Test</button>
   </div>
  </fieldset>
 </div>

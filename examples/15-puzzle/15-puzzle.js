@@ -73,7 +73,7 @@ function convertY(pos) {
 function drawSquare(xml, x, y) {
 	xml.pushTag("use");
 	xml.putAttribute("id", y * 4 + x);
-	xml.putAttribute("data-xdh-onevent", "Swap");
+	xml.putAttribute("xdh:onevent", "Swap");
 	xml.putAttribute("x", x * 100 + 24);
 	xml.putAttribute("y", y * 100 + 24);
 	xml.putAttribute("xlink:href", "#stone");
@@ -255,7 +255,7 @@ const body = `
     <g id="Texts" xml:space="preserve" style="font-size :50px; text-anchor :middle; fill :#000000; stroke :none; font-family :Arial, sans-serif; font-weight :bold;pointer-events: none;"/>
   </svg>
   <div style="display: table; margin: auto;">
-  <a data-xdh-onevent="Scramble" class="scramble">Scramble</a>
+  <a xdh:onevent="Scramble" class="scramble">Scramble</a>
   </div>
   </div>
 </div>

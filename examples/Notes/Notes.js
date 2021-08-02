@@ -652,23 +652,23 @@ const body = `
 </div>
 <div>
  <span class ="list-filter">
-  <input id="Pattern" placeholder="Filter By Title" class ="liset-filter light" type="text" data-xdh-onevent="Search" />
+  <input id="Pattern" placeholder="Filter By Title" class ="liset-filter light" type="text" xdh:onevent="Search" />
  </span>
  <div style="margin: auto; display: flex; justify-content: space-around; width: 50%;">
   <span>
    <label>
-    <input id="DescriptionToggling" type="checkbox" data-xdh-onevent="ToggleDescriptions" />
+    <input id="DescriptionToggling" type="checkbox" xdh:onevent="ToggleDescriptions" />
     <span> Hide descriptions </span>
    </label>
   </span>
-  <button class ="button" id="CreateButton" data-xdh-value="0" data-xdh-onevent="Edit">Create</button>
+  <button class ="button" id="CreateButton" xdh:value="0" xdh:onevent="Edit">Create</button>
  </div>
 </div>
 <div id="Notes" />
 `;
 
 // Content of 'Note.html'.
-// The escaping char must be escaped too (last argument of the 'data-xdh-widget' attribute value)!
+// The escaping char must be escaped too (last argument of the 'xdh:widget' attribute value)!
 const note = `
 <div>
 	<article class ="listing">
@@ -676,13 +676,13 @@ const note = `
 			<span class ="list-filter">
 				<input type="text" id="Title" placeholder="Title"/>
 			</span>
-			<textarea id="Description" data-xdh-widget="ckeditor|{entities: false, enterMode : CKEDITOR.ENTER_BR, linkShowTargetTab: false}|val\\(\\)|"></textarea>
+			<textarea id="Description" xdh:widget="ckeditor|{entities: false, enterMode : CKEDITOR.ENTER_BR, linkShowTargetTab: false}|val\\(\\)|"></textarea>
 		</div>
 		<span style="display:inline-block; width: 10px;"></span>
 		<div style="display: flex; justify-content: space-around;">
-			<button class ="button" data-xdh-onevent="Submit">Submit</button>
+			<button class ="button" xdh:onevent="Submit">Submit</button>
 			<span></span>
-			<button class ="button" data-xdh-onevent="Cancel">Cancel</button>
+			<button class ="button" xdh:onevent="Cancel">Cancel</button>
 		</div>
 	</article>
 </div>
@@ -713,7 +713,7 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 		<li>
 			<span id="View.{@id}">
 				<div>
-					<article class="listing note-view" style="width:100%; justify-content: space-between;align-items: center;" data-xdh-mark="{@id}">
+					<article class="listing note-view" style="width:100%; justify-content: space-between;align-items: center;" xdh:mark="{@id}">
 						<div>
 							<h3 id="Title.{@id}">
 								<xsl:value-of select="title"/>
@@ -724,9 +724,9 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 							</p>
 						</div>
 						<span id="Buttons.{@id}" style="flex-direction: row;">
-							<button class="button" data-xdh-onevent="Edit" data-xdh-value="{@id}">Edit</button>
+							<button class="button" xdh:onevent="Edit" xdh:value="{@id}">Edit</button>
 							<span style="display:inline-block; width: 10px;"></span>
-							<button class="button" data-xdh-onevent="Delete" data-xdh-value="{@id}">Delete</button>
+							<button class="button" xdh:onevent="Delete" xdh:value="{@id}">Delete</button>
 						</span>
 					</article>
 				</div>

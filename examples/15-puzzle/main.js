@@ -77,7 +77,7 @@ function convertY(pos) {
 function drawSquare(xml, x, y) {
 	xml.pushTag("use");
 	xml.putAttribute("id", y * 4 + x);
-	xml.putAttribute("data-xdh-onevent", "Swap");
+	xml.putAttribute("xdh:onevent", "Swap");
 	xml.putAttribute("x", x * 100 + 24);
 	xml.putAttribute("y", y * 100 + 24);
 	xml.putAttribute("xlink:href", "#stone");

@@ -196,13 +196,13 @@ const body = `
 	<div style="display: flex; flex-direction: column;">
 		<fieldset>
 			<legend>Pseudo.</legend>
-			<input id="Pseudo" type="text" size="10" maxlength="10" data-xdh-onevent="SubmitPseudo" placeholder="Pseudonyme" />
-			<button title="Choose a pseudonym." data-xdh-onevent="SubmitPseudo" id="PseudoButton">Send</button>
+			<input id="Pseudo" type="text" size="10" maxlength="10" xdh:onevent="SubmitPseudo" placeholder="Pseudonyme" />
+			<button title="Choose a pseudonym." xdh:onevent="SubmitPseudo" id="PseudoButton">Send</button>
 		</fieldset>
 		<fieldset style="display: flex; flex-direction: column;">
 			<legend>Message</legend>
-			<textarea rows="3" cols="20" id="Message" type="text" maxlength="150" data-xdh-onevent="SubmitMessage" placeholder="Message to send" disabled="disabled"></textarea>
-			<button title="Send a message." data-xdh-onevent="SubmitMessage" disabled="disabled" id="MessageButton">Send</button>
+			<textarea rows="3" cols="20" id="Message" type="text" maxlength="150" xdh:onevent="SubmitMessage" placeholder="Message to send" disabled="disabled"></textarea>
+			<button title="Send a message." xdh:onevent="SubmitMessage" disabled="disabled" id="MessageButton">Send</button>
 		</fieldset>
 		<fieldset>
 			<legend>Board</legend>
@@ -225,7 +225,7 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 		<xsl:apply-templates select="Message"/>
 	</xsl:template>
 	<xsl:template match="Message">
-		<li id="Message.{@id}" data-xdh-value="{@id}">
+		<li id="Message.{@id}" xdh:value="{@id}">
 			<xsl:element name="span">
 				<xsl:attribute name="class">
 					<xsl:choose>
