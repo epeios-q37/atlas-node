@@ -24,7 +24,7 @@ SOFTWARE.
 
 "use strict";
 
-var pAddr = "faas1.q37.info";
+var pAddr = "faas.q37.info";
 var pPort = 53700;
 var wAddr = "";
 var wPort = "";
@@ -48,6 +48,10 @@ function getEnv(name, value) {
 		return "";
 }
 
+function exit_(message) {
+	throw new Error(message);
+}
+
 switch (getEnv("ATK").toUpperCase()) {
 case 'DEV':
 	pAddr = "localhost";
@@ -60,7 +64,7 @@ case 'TEST':
 case '':case 'REPLIT':case 'NONE':
 	break;
 default:
-	throw "Bad 'ATK' environment variable value : should be 'DEV' or 'TEST' !";
+	exit_("Bad 'ATK' environment variable value : should be 'DEV' or 'TEST' !");
 	break;
 }
 
@@ -80,12 +84,14 @@ const net = require('net');
 
 const types = shared.types;
 const open = shared.open;
+const isDev = shared.isDev;
 
-const mainProtocolLabel = "bf077e9f-baca-48a1-bd3f-bf5181a78666";
+const mainProtocolLabel = "22bb5d73-924f-473f-a68a-14f41d8bfa83";
 const mainProtocolVersion = "0";
 
-const faasProtocolLabel = "9efcf0d1-92a4-4e88-86bf-38ce18ca2894";
+const faasProtocolLabel = "4c837d30-2eb5-41af-9b3d-6c8bf01d8dbf";
 const faasProtocolVersion = "0";
+const scriptVersion ="0";
 
 var token = getEnv("ATK_TOKEN");
 
@@ -160,13 +166,13 @@ class Feeder {
 	}
 	get(size) {
 		if ( this.data_.length === 0 )
-			throw "No data available!";
+			exit_("No data available!");
 
 		if ( size > this.data_.length)
 			size = this.data_.length;
 
 		if ( size === 0 )
-			throw "'size' can not be 0!"
+			exit_("'size' can not be 0!");
 
 		let data = this.data_.subarray(0,size);
 
@@ -305,7 +311,7 @@ function handleData(feeder) {
 		break;
 	default:
 		if ( top() < 0 )
-			throw "Unknown data operation";
+			exit_("Unknown data operation");
 		return false;
 		break;
 	}
@@ -324,13 +330,19 @@ const s = {
 	COMMAND: 301,
 	CREATION: 302,
 	CLOSING: 303,
-	HANDSHAKE: 304,
-	ERROR: 305,
-	LANGUAGE: 306,
-	LAUNCH: 307,
-	ID: 308,
-	ACTION: 309,
-	RESPONSE: 310,
+	ERROR: 304,
+	LANGUAGE: 305,
+	LAUNCH: 306,
+	ID: 307,
+	ACTION: 308,
+	RESPONSE: 309,
+}
+
+// Special ids.
+const ids = {
+	FORBIDDEN: -1,
+	CREATION: -2,
+	CLOSING: -3
 }
 
 function handleCommand(command) {
@@ -339,20 +351,20 @@ function handleCommand(command) {
 	// console.log(command);
 
 	switch (command) {
-	case -1:
-		throw "Received unexpected undefined command id!";
+	case ids.FORBIDDEN:
+		exit_("Received unexpected undefined command id!");
 		break;
-	case -2:
+	case ids.CREATION:
 		push(s.CREATION);
 		push(d.SINT);
 		break;
-	case -3:
+	case ids.CLOSING:
 		push(s.CLOSING);
 		push(d.SINT);
 		break;
 	default:
 		if (command < 0 )
-			throw "Unknown command of id '" + command + "'!";
+			exit_("Unknown command of id '" + command + "'!");
 		else
 			IsCommand = false;
 		break;
@@ -365,13 +377,21 @@ function fillXDH(xdh, id) {
 	xdh.id = id;
 	xdh.isFAAS = true;
 	xdh.type = types.UNDEFINED;
-	xdh.handshakeDone = false;
+	xdh.language = undefined;
 	xdh.queued = [];
+}
+
+function report_(message) {
+	socket.write(addString(addString(convertSInt(-1),"#Inform_1"), message));
+}
+
+function dismiss_(id) {
+	socket.write(addString(convertSInt(id),"#Dismiss_1"));
 }
 
 function handleCreation(id, createCallback) {
 	if (id in instances)
-		throw "Instance of id  '" + id + "' exists but should not !";
+		report_("Instance of id  '" + id + "' exists but should not !");
 
 	let instance = createCallback();
 
@@ -380,13 +400,11 @@ function handleCreation(id, createCallback) {
 	fillXDH(instance._xdh, id);
 
 	instances[id] = instance;
-
-	socket.write(addString(addString(convertSInt(id), mainProtocolLabel), mainProtocolVersion));
 }
 
 function handleClosing(id) {
 	if ( !(id in instances ) )
-		throw "Instance of id '" + id + "' not available for destruction!";
+		report_("Instance of id '" + id + "' not available for destruction!");
 
 	delete instances[id];	
 }
@@ -410,14 +428,17 @@ function standBy(instance) {
 
 function handleLaunch(id, action, actionCallbacks) {
 	if ( instance === undefined)
-		throw "No instance set!";
+		exit_("No instance set!");
+
+	if ( ( action === "" ) && isDev() )
+		instance.debugLog();
 
 	if ((action === "") || !("_PreProcess" in actionCallbacks) || callCallback(actionCallbacks["_Preprocess"], instance, id, action))
 		if (callCallback(actionCallbacks[action], instance, id, action) && ("_PreProcess" in actionCallbacks))
 			callCallback(actionCallbacks["_Postprocess"], instance, id, action);
 
 	if (instance._xdh.queued.length === 0)
-		standBy(instance, 418);
+		standBy(instance);
 }
 
 function setResponse(type) {
@@ -431,7 +452,7 @@ function setResponse(type) {
 		push(d.STRINGS);
 		break;
 	default:
-		throw "Bad response type!";
+		exit_("Bad response type!");
 		break;
 	}	
 }
@@ -452,21 +473,22 @@ function serve(feeder, createCallback, actionCallbacks) {
 			if ( !handleCommand(sInt) ) {	// Makes the required 'push(…)'.
 				let id = sInt;
 
-				if ( !(id in instances ) )
-					throw "Unknown instance of id '" + id + "'!";
-
-				instance = instances[id];
-
-				if (!instance._xdh.handshakeDone) {
-					push(s.HANDSHAKE);
-					push(s.ERROR)
-					push(d.STRING);
-				} else if ( instance._xdh.queued.length === 0) {
-					push(s.LAUNCH);
-					push(s.ID);
-					push(d.STRING);
+				if ( !(id in instances) ) {
+					report_("Unknown instance of id '" + id + "'!");
+					dismiss_(id);
 				} else {
-					setResponse(instance._xdh.queued[0].type);
+					instance = instances[id];
+
+					if (instance._xdh.language === undefined) {
+						push(s.LANGUAGE);
+						push(d.STRING);
+					} else if ( instance._xdh.queued.length === 0) {
+						push(s.LAUNCH);
+						push(s.ID);
+						push(d.STRING);
+					} else {
+						setResponse(instance._xdh.queued[0].type);
+					}
 				}
 			}
 			break;
@@ -478,20 +500,16 @@ function serve(feeder, createCallback, actionCallbacks) {
 			pop();
 			handleClosing(sInt);
 			break;
-		case s.HANDSHAKE:
-			instance._xdh.handshakeDone = true;
-			pop();
-			break;	
 		case s.ERROR:
 			if ( string !== "" )
-				throw string;
+				exit_(string);
 			
 			pop();
 			push(s.LANGUAGE);
 			push(d.STRING);
 			break;
 		case s.LANGUAGE:
-			// Currently not handled.
+			instance._xdh.language = string;
 			pop();
 			break;
 		case s.LAUNCH:
@@ -519,7 +537,7 @@ function serve(feeder, createCallback, actionCallbacks) {
 			if ( callback !== undefined) {
 				switch ( type ) {
 				case types.UNDEFINED:
-					throw "Undefined type not allowed here!";
+					exit_("Undefined type not allowed here!");
 					break;
 				case types.VOID:
 					callback();
@@ -532,7 +550,7 @@ function serve(feeder, createCallback, actionCallbacks) {
 					callback(strings);
 					break;
 				default:
-					throw "Unknown type of value '" + type + "'!";
+					exit_("Unknown type of value '" + type + "'!");
 					break;
 				}
 
@@ -543,7 +561,7 @@ function serve(feeder, createCallback, actionCallbacks) {
 			break;
 		default:
 			if ( !handleData(feeder) )
-				throw "Unknown serve operation!"
+				exit_("Unknown serve operation!");
 			break;
 		}
 	}
@@ -595,7 +613,7 @@ function ignition(feeder) {
 			}
 			break;
 		case i.ERROR:
-			throw string;
+			exit_(string);
 			break;
 		case i.URL:
 			pop();
@@ -603,7 +621,7 @@ function ignition(feeder) {
 			break;
 		default:
 			if ( !handleData(feeder) )
-				throw "Unknown ignition operation!"
+				exit_("Unknown ignition operation!");
 			break;
 		}
 	}
@@ -616,50 +634,59 @@ function ignition(feeder) {
 /*************/
 
 const h = {
-	HANDSHAKE: 101,
-	ERROR: 102,
-	NOTIFICATION: 103,
+	HANDSHAKES: 101,
+	ERROR_FAAS: 102,
+	NOTIFICATION_FAAS: 103,
+	ERROR_MAIN: 104,
+	NOTIFICATION_MAIN: 105,
 }
 
-function handleNotification(notification, head) {
-	if ( notification !== "" )
-		console.log(notification);
-
-	socket.write(handleString(token));
-
-	if (head === undefined)
-		head = "";
-
-	socket.write(addString(addString(handleString(head),wAddr),"NJS"));
-}
-
-
-function handshake(feeder, head) {
+function handshakes(feeder, head) {
 	while ( !feeder.isEmpty() || cont ) {
 		cont = false;
 		switch( top() ) {
-		case h.HANDSHAKE:
+		case h.HANDSHAKES:
 			pop();
+			socket.write(addString(addString(addString(handleString(token), head === undefined ? "" : head),wAddr),""));
 			push(i.IGNITION);
 			push(i.TOKEN);
 			push(d.STRING);
 			return false;
 			break;
-		case h.ERROR:
+		case h.ERROR_FAAS:
 			if ( string.length )
-				throw string;
+				exit_(string);
 
 			pop();
-			push(h.NOTIFICATION);
+			push(h.NOTIFICATION_FAAS);
 			push(d.STRING);
 			break;
-		case h.NOTIFICATION:
-			if ( !handleNotification(string, head) )
+		case h.NOTIFICATION_FAAS:
+			if ( string.length )
+				console.log(string);
+
+			socket.write(addString(addString(handleString(mainProtocolLabel),mainProtocolVersion),scriptVersion));
+			pop();
+			push(h.ERROR_MAIN);
+			push(d.STRING);
+			break;
+		case h.ERROR_MAIN:
+				if ( string.length )
+					exit_(string);
+
 				pop();
+				push(h.NOTIFICATION_MAIN);
+				push(d.STRING);
+				break;
+		case h.NOTIFICATION_MAIN:
+			if ( string.length )
+				console.log(string);
+
+			pop();
 			break;
 		default:
 			if ( !handleData(feeder) )
-				throw "Unknown handshake operation!";
+				exit_("Unknown handshake operation!");
 			break;
 		}
 	}
@@ -668,12 +695,12 @@ function handshake(feeder, head) {
 }
 
 const p = {
-	HANDSHAKE: 1,
+	HANDSHAKES: 1,
 	IGNITION: 2,
 	SERVE: 3,
 }
 
-var phase = p.HANDSHAKE;
+var phase = p.HANDSHAKES;
 
 function onRead(data, createCallback, actionCallbacks, head) {
 
@@ -683,8 +710,8 @@ function onRead(data, createCallback, actionCallbacks, head) {
 
 	while ( !feeder.isEmpty() ) {
 		switch ( phase ) {
-		case p.HANDSHAKE:
-			if ( !handshake(feeder, head) )
+		case p.HANDSHAKES:
+			if ( !handshakes(feeder, head) )
 				phase = p.IGNITION;
 			break;
 		case p.IGNITION:
@@ -695,7 +722,7 @@ function onRead(data, createCallback, actionCallbacks, head) {
 			serve(feeder, createCallback, actionCallbacks);
 			break;
 		default:
-			throw "Unknown phase of value '" + step + "'!";
+			exit_("Unknown phase of value '" + step + "'!");
 			break;
 		}
 	}
@@ -705,19 +732,20 @@ function launch(createCallback, actionCallbacks, head) {
 	socket = new net.Socket();
 
 	socket.on('error', (err) => {
-		throw "Unable to connect to '" + pAddr + ":" + pPort + "' !!!";
+		console.log("Unable to connect to '" + pAddr + ":" + pPort + "' !!!");
+		process.exit(-1);
 	});
 
 	console.log("Connecting to '" + pAddr + ":" + pPort + "'…");
 
 	socket.connect(pPort, pAddr, () => {
 		console.log("Connected to '" + pAddr + ":" + pPort + "'.")
-		push(h.HANDSHAKE);
-		push(h.ERROR);
+		push(h.HANDSHAKES);
+		push(h.ERROR_FAAS);
 		push(d.STRING);
 		socket.on('data', (data) => onRead(data, createCallback, actionCallbacks, head));
 		
-		socket.write(addString(handleString(faasProtocolLabel),faasProtocolVersion));
+		socket.write(addString(addString(handleString(faasProtocolLabel),faasProtocolVersion),"NJS"));
 	});	
 }
 
@@ -727,7 +755,7 @@ function addTagged(data, argument) {
     } else if (typeof argument === "object") {
 		return addStrings(Buffer.concat([data,convertUInt(types.STRINGS)]), argument);
     } else
-		throw "Unexpected argument type: " + typeof argument;
+		exit_("Unexpected argument type: " + typeof argument);
 }
 
 function call(instance, command, type) {
@@ -761,12 +789,12 @@ function call(instance, command, type) {
 
 		instance._xdh.queued.push(pending);
 	} else
-		throw "'UNDEFINED' type not allowed here!"
+		exit_("'UNDEFINED' type not allowed here!");
 }
 
 function broadcastAction(action, id) {
 	if ( ( action === undefined ) || ( action === "" ) )
-		throw "There must be an non-empty action parameter for tha broadcastAction function!";
+		exit_("There must be an non-empty action parameter for tha broadcastAction function!");
 
 	socket.write(addString(addString(convertSInt(-3), action), id === undefined ? "" : id ));
 }

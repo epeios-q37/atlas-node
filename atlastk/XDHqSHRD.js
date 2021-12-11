@@ -111,7 +111,12 @@ function open(document) {
 	return available;
 }
 
+function isDev() {
+	return process.env.Q37_EPEIOS ? true : false;
+}
+
 module.exports.types = types;
 module.exports.platforms = platforms;
 module.exports.platform = platform;
 module.exports.open = open;
+module.exports.isDev = isDev;

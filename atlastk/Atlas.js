@@ -170,7 +170,6 @@ function launch(createCallback, callbacks, head, gui) {
 	}
 }
 
-
 function createXML(rootTag) {
 	return new xdhq.XML(rootTag);
 }
