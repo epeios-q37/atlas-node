@@ -184,6 +184,7 @@ function createHTML(rootTag) {
 
 module.exports.launch = launch;
 module.exports.createXML = createXML;
+module.exports.createHTML = createHTML;
 module.exports.broadcastAction = xdhq.broadcastAction;
 module.exports.DOM = xdhq.XDH;
 

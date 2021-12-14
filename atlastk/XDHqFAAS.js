@@ -602,15 +602,14 @@ function ignition(feeder) {
 			break;
 		case i.TOKEN:
 			token = string;
-
 			pop();
 
 			if ( isTokenEmpty() )
 				push(i.ERROR);
-			else {
+			else
 				push(i.URL);
-				push(d.STRING);
-			}
+
+			push(d.STRING);
 			break;
 		case i.ERROR:
 			exit_(string);
@@ -629,9 +628,9 @@ function ignition(feeder) {
 	return true;
 }
 
-/*************/
-/* HANDSHAKE */
-/*************/
+/**************/
+/* HANDSHAKES */
+/**************/
 
 const h = {
 	HANDSHAKES: 101,
@@ -765,7 +764,7 @@ function call(instance, command, type) {
 	let data = convertSInt(instance._xdh.id);
 	let amount = arguments.length-1;
     
-    data = Buffer.concat([addString(data,command),convertUInt(type)])
+  data = Buffer.concat([addString(data,command),convertUInt(type)])
 
 //	console.log( Date.now(), " Command: ", command, instance._xdh.id);
 

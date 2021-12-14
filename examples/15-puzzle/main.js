@@ -46,7 +46,7 @@ const readAsset = atlas.readAsset;
 class Puzzle extends DOM {
 }
 
-function fill(dom) {
+function fill(dom, callback) {
 	let numbers = [];
 	let contents = [];
 
@@ -62,8 +62,7 @@ function fill(dom) {
 			dom.blank = i;
 	}
 
-	dom.setValues(contents);
-	dom.toggleClass(dom.blank, "hidden");
+	dom.setValues(contents, () => dom.toggleClass(dom.blank, "hidden", callback));
 }
 
 function convertX(pos) {
@@ -80,20 +79,20 @@ function drawSquare(xml, x, y) {
 	xml.putAttribute("xdh:onevent", "Swap");
 	xml.putAttribute("x", x * 100 + 24);
 	xml.putAttribute("y", y * 100 + 24);
-	xml.putAttribute("xlink:href", "#stone");
+	xml.putAttribute("href", "#stone");
 	xml.popTag();
 
 	return xml;
 }
 
-function drawGrid(dom) {
-	let xml = atlas.createXML("g");
+function drawGrid(dom, callback) {
+	let xml = atlas.createHTML("g");
 
 	for (let x = 0; x < 4; x++)
 		for (let y = 0; y < 4; y++)
 			xml = drawSquare(xml, x, y);
 
-	dom.inner("Stones", xml);
+	dom.inner("Stones", xml, callback);
 }
 
 function setText(xml, x, y) {
@@ -106,17 +105,17 @@ function setText(xml, x, y) {
 	return xml;
 }
 
-function setTexts(dom) {
+function setTexts(dom, callback) {
 	let xml = atlas.createXML("text");
 
 	for (let x = 0; x < 4; x++)
 		for (let y = 0; y < 4; y++)
 			xml = setText(xml, x, y);
 
-	dom.inner("Texts", xml);
+	dom.inner("Texts", xml, callback);
 }
 
-function swap(dom, source,id) {
+function swap(dom, source, id, callback) {
 	dom.getValue(
 		"t" + source,
 		(value) => dom.setValues({
@@ -129,11 +128,11 @@ function swap(dom, source,id) {
 				},
 				() => {
 					dom.blank = source;
-					testAndSwap(dom, id);
+					testAndSwap(dom, id, callback);
 				})));
 }
 
-function testAndSwap(dom, id) {
+function testAndSwap(dom, id, callback) {
 	let ix = convertX(parseInt(id));
 	let iy = convertY(parseInt(id));
 	let bx = convertX(dom.blank);
@@ -141,31 +140,19 @@ function testAndSwap(dom, id) {
 
 	if (ix === bx) {
 		if (by < iy)
-			swap(dom, dom.blank + 4, id);
+			swap(dom, dom.blank + 4, id, callback);
 		else if (by > iy)
-			swap(dom, dom.blank - 4, id);
+			swap(dom, dom.blank - 4, id, callback);
 	} else if (iy === by) {
 		if (bx < ix)
-			swap(dom, dom.blank + 1, id);
+			swap(dom, dom.blank + 1, id, callback);
 		else if (bx > ix)
-			swap(dom, dom.blank - 1, id);
+			swap(dom, dom.blank - 1, id, callback);
 	}
 }
 
-function scramble(dom) {
-	drawGrid(dom);
-	setTexts(dom);
-	fill(dom);
-}
-
-function acConnect(dom, id) {
-	dom.inner("", readAsset("Main.html"));
-	scramble(dom);
-}
-
-function acSwap(dom, id)
-{
-	testAndSwap(dom, id);
+function scramble(dom, callback) {
+	drawGrid(dom, () => setTexts(dom, () => fill(dom, callback)));
 }
 
 function newSession() {
@@ -174,9 +161,9 @@ function newSession() {
 
 function main() {
 	const callbacks = {
-		"": acConnect,
-		"Swap": acSwap,
-		"Scramble": (dom,id) => scramble(dom)
+		"": (dom) => dom.inner("", readAsset("Main.html"),() => scramble(dom)),
+		"Swap": (dom, id) => testAndSwap(dom, id),
+		"Scramble": (dom) => scramble(dom)
 	};
 
 	atlas.launch(newSession, callbacks, readAsset("Head.html"));
