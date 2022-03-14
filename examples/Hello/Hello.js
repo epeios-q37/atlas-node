@@ -23,23 +23,23 @@ SOFTWARE.
 */
 
 /*
-	This is the one-file version, in which the content of
-	the 'Head.html' and the 'Main.html' files are embedded.
+  This is the one-file version, in which the content of
+  the 'Head.html' and the 'Main.html' files are embedded.
 */
 
 var atlas;
 
 if (process.env.Q37_EPEIOS) {
-	let epeiosPath = "";
+  let epeiosPath = "";
 
-    if (process.platform === 'win32')
-        epeiosPath = "h:/hg/epeios/";
-    else
-        epeiosPath = process.env.Q37_EPEIOS;
+  if (process.platform === 'win32')
+    epeiosPath = "h:/hg/epeios/";
+  else
+    epeiosPath = process.env.Q37_EPEIOS;
 
-	atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
+  atlas = require(epeiosPath + "tools/xdhq/Atlas/NJS/Atlas.js");
 } else {
-	atlas = require('atlastk');
+  atlas = require('atlastk');
 }
 
 const head = `
@@ -61,19 +61,26 @@ const body = `
 `;
 
 function acTest(dom) {
-    console.log("!!!!!!!!!!! Test");
-    dom.setValue("input", "Test", () => console.log("callback!"));
+  console.log("!!!!!!!!!!! Test");
+  dom.setValue("input", "Test", () => console.log("callback!"));
+  dom.drop();
 }
 
 const callbacks = {
-    "": (dom) => dom.inner("", body,
-        () => dom.focus("input")),
-    "Submit": (dom) => dom.getValue("input",
-        (name) => dom.alert("Hello, " + name + "!",
-            () => dom.focus("input"))),
-    "Clear": (dom) => dom.confirm("Are you sure ?",
-        (answer) => { if (answer) dom.setValue("input", ""); dom.focus("input"); }),
-    "Test": acTest,
+  "": (dom) => dom.inner("", body,
+    () => dom.focus("input")),
+  "Submit": (dom) => dom.getValue("input",
+    (name) => dom.alert("Hello, " + name + "!",
+      () => dom.focus("input"))),
+  "Clear": (dom) => dom.confirm("Are you sure ?",
+    (answer) => {
+      if (answer) {
+        dom.setValue("input", "",
+          () => dom.hold());
+      }
+      dom.focus("input");
+    }),
+  "Test": acTest,
 };
 
 atlas.launch(() => new atlas.DOM(), callbacks, head);

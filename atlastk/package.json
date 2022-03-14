@@ -1,7 +1,7 @@
 {
     "_comment": "Used for the publication of the 'atlastk' module on NPM",
     "name": "atlastk",
-    "version": "0.13.1",
+    "version": "0.13.2",
     "author": "Claude SIMON (http://q37.info/contact/)",
     "description": "The quick and easy way to add versatile graphical interfaces with networking capabilities to your Node.js programs. ",
     "main": "Atlas.js",

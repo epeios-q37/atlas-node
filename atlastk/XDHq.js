@@ -133,6 +133,12 @@ function launch(callback, tagsAndCallbacks, head, mode) {
 }
 
 class XDH {
+	hold() {
+		// Yes, nothing to do!
+	}
+	drop() {
+		xdhq.standBy(this);
+	}
 	execute_(type, script, callback) {
 		call(this, "Execute_1", type, script, callback);
 	}
@@ -154,7 +160,7 @@ class XDH {
         // see the 'alert' primitive in 'XDHqXDH'.
 	}
 	confirm(message, callback) {
-		call(this, "Confirm_1", types.STRING, message, (answer) => callback(answer === "true"));
+		call(this, "Confirm_1", types.STRING, message, callback === undefined ? callback : (answer) => callback(answer === "true"));
 	}
 	handleLayout_(variant, id, xml, xsl, callback) {
 		if (typeof xml !== "string")
@@ -164,9 +170,6 @@ class XDH {
 	}
 	prependLayout(id, html, callback) {	// Deprecated!
 		this.handleLayout_("Prepend", id, html, "", callback);
-	}
-	inner(id, html, callback) {	// Deprecated!
-		this.handleLayout_("Set", id, html, "", callback);
 	}
 	appendLayout(id, html, callback) {	// Deprecated!
 		this.handleLayout_("Append", id, html, "", callback);
@@ -217,12 +220,11 @@ class XDH {
 		this.layout_("afterend", id, xml, xslOrCallback, callback);
 	}
 	getContents(ids, callback) {	// Deprecated
-		call(this, "GetContents_1", types.STRINGS, ids,
-			(contents) => callback(unsplit(ids, contents))
+		call(this, "GetContents_1", types.STRINGS, ids, callback === undefined ? callback : (contents) => callback(unsplit(ids, contents))
 		);
 	}
 	getContent(id, callback) {	// Deprecated
-		return this.getContents([id], (result) => { callback(result[id]); });
+		return this.getContents([id], callback === undefined ? callback : (result) => { callback(result[id]); });
 	}
 	setContents(idsAndContents, callback) {	// Deprecated
 		var ids = [];
@@ -236,12 +238,11 @@ class XDH {
 		return this.setContents(merge(id, content), callback);
 	}
 	getValues(ids, callback) {
-		call(this, "GetValues_1", types.STRINGS, ids,
-			(values) => callback(unsplit(ids, values))
+		call(this, "GetValues_1", types.STRINGS, ids, callback === undefined ? callback : (values) => callback(unsplit(ids, values))
 		);
 	}
 	getValue(id, callback) {
-		return this.getValues([id], (result) => { callback(result[id]); });
+		return this.getValues([id], callback === undefined ? callback : (result) => { callback(result[id]); });
 	}
 	setValues(idsAndValues, callback) {
 		var ids = [];
@@ -252,15 +253,14 @@ class XDH {
 		call(this, "SetValues_1", types.VOID, ids, values, callback);
 	}
 	setValue(id, value, callback) {
-		return this.setValues(merge(id, value), callback);
+		this.setValues(merge(id, value), callback);
 	}
 	getMarks(ids, callback) {
-		call(this, "GetMarks_1", types.STRINGS, ids,
-			(marks) => callback(unsplit(ids, marks))
+		call(this, "GetMarks_1", types.STRINGS, ids, callback === undefined ? callback : (marks) => callback(unsplit(ids, marks))
 		);
 	}
 	getMark(id, callback) {
-		return this.getMarks([id], (result) => { callback(result[id]); });
+		return this.getMarks([id], callback === undefined ? callback : (result) => { callback(result[id]); });
 	}
 	setMarks(idsAndMarks, callback) {
 		var ids = [];
@@ -273,21 +273,8 @@ class XDH {
 	setMark(id, mark, callback) {
 		return this.setMarks(merge(id, mark), callback);
 	}
-/*
-	createElement_(name, id, callback ) {
-        call(this, "CreateElement_1", types.STRING, 2, name, id, 0, callback);
-    }
-	createElement(name, idOrCallback, callback ) {
-		if (typeof idOrCallback === "string")
-			return this.createElement_(name, idOrCallback, callback);
-		else
-			return this.createElement_(name, "", idOrCallback);
-	}
-	insertChild(child, id, callback) {
-		call(this, "InsertChild_1", types.VOID, 2, child, id, 0, callback);
-	}
-*/
-	handleClasses(idsAndClasses, variant, callback) {
+
+		handleClasses(idsAndClasses, variant, callback) {
 		var ids = [];
 		var classes = [];
 

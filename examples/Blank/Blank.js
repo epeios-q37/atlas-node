@@ -46,40 +46,6 @@ class Blank extends DOM {
 	}
 }
 
-function newSession() {
-	return new Blank();
-}
-
-function acConnect(dom, id) {
-	dom.inner("", body);
-}
-
-function acSubmit(dom, id) {
-	dom.getValue("Pattern",
-		(result) => dom.setValue("Pattern", result.toUpperCase())
-	);
-}
-
-function acHideInput(dom, id) {
-	dom.addClass("Input", "hidden");
-}
-
-function acShowInput(dom, id) {
-	dom.removeClass("Input", "hidden");
-	dom.focus("Pattern");
-}
-
-function main() {
-    const callbacks = {
-		"": acConnect,
-		"Submit": acSubmit,
-		"HideInput": acHideInput,
-		"ShowInput": acShowInput
-    };
-
-	atlas.launch(newSession, callbacks, head );
-}
-
 // Content of 'Head.html'.
 const head = `
 <title>(almost) blank example</title>
@@ -111,4 +77,13 @@ const body = `
 </div>
 `;
 
-main();
+const callbacks = {
+	"": (dom) => dom.inner("", body),
+	"Submit": (dom) => dom.getValue("Pattern",
+		(result) => dom.setValue("Pattern", result.toUpperCase())),
+	"HideInput": (dom) => dom.addClass("Input", "hidden"),
+	"ShowInput": (dom) => dom.removeClass("Input", "hidden",
+		() => dom.focus("Pattern")),
+};
+
+atlas.launch(newSession, callbacks, head);

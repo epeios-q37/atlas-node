@@ -34,7 +34,7 @@ var electronBin = "";
 
 const process = require("process");
 // Comment below line to see where file and line where the exception occurs.
-process.on('uncaughtException', (err) => {console.log(err);process.exit()})
+process.on('uncaughtException', (err) => {console.log(err);process.exit();});
 
 if (process.env.Q37_EPEIOS) {
 	let epeiosToolsPath = "";
