@@ -3,6 +3,25 @@
 - Common to **all** bindings,
 - does **not** concern the native code.
 
+## 2022-07-01
+- *Node*: switching to v0.13.3;
+
+## 2022-06-28
+- *Python*:
+  - the *camelCase* naming is now the official one (*snake_case* naming remains available),
+  - switching to v0.13.2,
+
+## 2022-05-24
+- *Node*:
+  - fixing `new Buffer(0)` deprecation,
+  - implementing *FaaS* protocol v1,
+
+## 2022-05-18
+- *Python*
+  - generalization of camel case,
+  - implementing *FaaS* protocol v1,
+  - switching to v0.13.1,
+
 ## 2022-03-14
 - *Node*:
   - adding `Hold()` and `Drop()`,

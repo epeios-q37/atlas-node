@@ -24,7 +24,7 @@ SOFTWARE.
 
 "use strict";
 
-const version = "0.13.2";	// Should be probably placed in 'XDHqSHRD.js'.
+const version = "0.13.3";	// Should be probably placed in 'XDHqSHRD.js'.
 
 var pAddr = "faas.q37.info";
 var pPort = 53700;
@@ -108,12 +108,12 @@ const types = shared.types;
 const open = shared.open;
 const isDev = shared.isDev;
 
-const mainProtocolLabel = "22bb5d73-924f-473f-a68a-14f41d8bfa83";
-const mainProtocolVersion = "0";
+const MAIN_PROTOCOL_LABEL = "22bb5d73-924f-473f-a68a-14f41d8bfa83";
+const MAIN_PROTOCOL_VERSION = "0";
 
-const faasProtocolLabel = "4c837d30-2eb5-41af-9b3d-6c8bf01d8dbf";
-const faasProtocolVersion = "0";
-const scriptVersion ="0";
+const FAAS_PROTOCOL_LABEL = "4c837d30-2eb5-41af-9b3d-6c8bf01d8dbf";
+const FAAS_PROTOCOL_VERSION = "1";
+const SCRIPT_VERSION ="0";
 
 var token = getEnv("ATK_TOKEN");
 
@@ -172,7 +172,7 @@ function addStrings(data, strings) {
 }
 
 function handleString(string) {
-	let data = new Buffer(0);
+	let data = Buffer.alloc(0);
 
 	data = addString(data, string);
 
@@ -361,28 +361,37 @@ const s = {
 }
 
 // Special ids.
-const ids = {
+const commandIds = {
 	FORBIDDEN: -1,
 	CREATION: -2,
-	CLOSING: -3
+	CLOSING: -3,
+	HEAD: -4,
 }
 
-function handleCommand(command) {
+const responseIds = {
+	BROADCAST: -3,
+	HEAD: -4
+}
+
+function handleCommand(command, head) {
 	let IsCommand = true;
 
 	// console.log(command);
 
 	switch (command) {
-	case ids.FORBIDDEN:
+	case commandIds.FORBIDDEN:
 		exit_("Received unexpected undefined command id!");
 		break;
-	case ids.CREATION:
+	case commandIds.CREATION:
 		push(s.CREATION);
 		push(d.SINT);
 		break;
-	case ids.CLOSING:
+	case commandIds.CLOSING:
 		push(s.CLOSING);
 		push(d.SINT);
+		break;
+	case commandIds.HEAD:
+		socket.write(addString(convertSInt(responseIds.HEAD), head === undefined ? "" : head));
 		break;
 	default:
 		if (command < 0 )
@@ -483,7 +492,7 @@ function setResponse(type) {
 	}	
 }
 
-function serve(feeder, createCallback, actionCallbacks) {
+function serve(feeder, createCallback, actionCallbacks, head) {
 	
 	while ( !feeder.isEmpty() || cont ) {
 		cont = false;
@@ -497,7 +506,7 @@ function serve(feeder, createCallback, actionCallbacks) {
 			break;
 		case s.COMMAND:
 			pop();
-			if ( !handleCommand(sInt) ) {	// Makes the required 'push(…)'.
+			if ( !handleCommand(sInt, head) ) {	// Makes the required 'push(…)'.
 				let id = sInt;
 
 				if ( !(id in instances) ) {
@@ -667,13 +676,13 @@ const h = {
 	NOTIFICATION_MAIN: 105,
 }
 
-function handshakes(feeder, head) {
+function handshakes(feeder) {
 	while ( !feeder.isEmpty() || cont ) {
 		cont = false;
 		switch( top() ) {
 		case h.HANDSHAKES:
 			pop();
-			socket.write(addString(addString(addString(handleString(token), head === undefined ? "" : head),wAddr),""));
+			socket.write(addString(addString(handleString(token),wAddr),""));
 			push(i.IGNITION);
 			push(i.TOKEN);
 			push(d.STRING);
@@ -691,7 +700,7 @@ function handshakes(feeder, head) {
 			if ( string.length )
 				process.stdout.write(string + '\n');
 
-			socket.write(addString(addString(handleString(mainProtocolLabel),mainProtocolVersion),scriptVersion));
+			socket.write(addString(addString(handleString(MAIN_PROTOCOL_LABEL),MAIN_PROTOCOL_VERSION),SCRIPT_VERSION));
 			pop();
 			push(h.ERROR_MAIN);
 			push(d.STRING);
@@ -736,7 +745,7 @@ function onRead(data, createCallback, actionCallbacks, head) {
 	while ( !feeder.isEmpty() ) {
 		switch ( phase ) {
 		case p.HANDSHAKES:
-			if ( !handshakes(feeder, head) )
+			if ( !handshakes(feeder) )
 				phase = p.IGNITION;
 			break;
 		case p.IGNITION:
@@ -744,7 +753,7 @@ function onRead(data, createCallback, actionCallbacks, head) {
 				phase = p.SERVE;
 			break;
 		case p.SERVE:
-			serve(feeder, createCallback, actionCallbacks);
+			serve(feeder, createCallback, actionCallbacks, head);
 			break;
 		default:
 			exit_("Unknown phase of value '" + step + "'!");
@@ -767,7 +776,7 @@ function launch(createCallback, actionCallbacks, head) {
 		push(d.STRING);
 		socket.on('data', (data) => onRead(data, createCallback, actionCallbacks, head));
 		
-		socket.write(addString(addString(handleString(faasProtocolLabel),faasProtocolVersion),"NJS " + version));
+		socket.write(addString(addString(handleString(FAAS_PROTOCOL_LABEL),FAAS_PROTOCOL_VERSION),"NJS " + version));
 	});	
 }
 
@@ -823,7 +832,7 @@ function broadcastAction(action, id) {
 	if ( ( action === undefined ) || ( action === "" ) )
 		exit_("There must be an non-empty action parameter for tha broadcastAction function!");
 
-	socket.write(addString(addString(convertSInt(-3), action), id === undefined ? "" : id ));
+	socket.write(addString(addString(convertSInt(responseIds.BROADCAST), action), id === undefined ? "" : id ));
 }
 
 module.exports.launch = launch;
