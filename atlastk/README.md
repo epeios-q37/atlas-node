@@ -75,7 +75,7 @@ Thanks to [*Replit*](https://q37.info/s/mxmgq3qm), an [online IDE](https://q37.i
 To see more examples, like the following [*TodoMVC*](http://todomvc.com/), simply:
 - go [here](https://q37.info/s/st7gccd4) (also accessible with the [![Run on Repl.it](https://q37.info/s/kpm7xhfm.png)](https://q37.info/s/st7gccd4) button at the top of this page),
 - click on the green `Run` button,
-- choose the *Node* entry (this clones the corresponding *GitHub* repository),
+- choose the *Node.js* entry (this clones the corresponding *GitHub* repository),
 - choose the demonstration to launch,
 - wait for the application to open, 
 - … and, as you wish, fork the *Replit* repository and run your own tests directly in your browser, by modifying the code of the examples or by writing your own code.
