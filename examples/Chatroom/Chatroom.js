@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-var atlas;
+let atlas;
 
 if (process.env.Q37_EPEIOS) {
 	let epeiosPath = "";
@@ -39,10 +39,8 @@ if (process.env.Q37_EPEIOS) {
 
 const DOM = atlas.DOM;
 
-var pseudos = [];
-var messages = [];
-
-var messageBlockId;
+let pseudos = [];
+let messages = [];
 
 class MyData extends DOM {
 	constructor() {
@@ -54,9 +52,9 @@ class MyData extends DOM {
 }
 
 function displayMessages(dom) {
-	var xml = atlas.createXML('XDHTML');
-	var i = messages.length - 1;
-	var message;
+	let xml = atlas.createXML('XDHTML');
+	let i = messages.length - 1;
+	let message;
 
 	if (i >= dom.lastMessage) {
 		xml.pushTag("Messages");
@@ -76,8 +74,9 @@ function displayMessages(dom) {
 
 		xml.popTag();
 
-		dom.begin("Board", xml, "Messages.xsl");
-	}
+		dom.begin("Board", xml, XSL);
+	} else
+		dom.drop();
 }
 
 function newSession() {
@@ -85,7 +84,7 @@ function newSession() {
 }
 
 function acConnect(dom, id) {
-	dom.inner("", body,
+	dom.inner("", BODY,
 		() => dom.focus("Pseudo",
 			() => displayMessages(dom)
 		)
@@ -109,21 +108,25 @@ function acSubmitPseudo(dom, id) {
 			if (result.length === 0) {
 				dom.alert("Cannot be empty!",
 					() => dom.setValue("Pseudo", "",
-						() => dom.focus("Pseudo")
+						() => dom.focus( "Pseudo" )
 					)
 				);
 			} else if (handlePseudo(result.toUpperCase())) {
 				dom.pseudo = result;
-				dom.addClass("PseudoButton", "hidden");
-				dom.disableElements(["Pseudo", "PseudoButton"]);
-				dom.enableElements(["Message", "MessageButton"]);
-				dom.setValue("Pseudo", result);
-				dom.focus("Message");
+				dom.addClass("PseudoButton", "hidden",
+					() => dom.disableElements(["Pseudo", "PseudoButton"],
+						() => dom.enableElements(["Message", "MessageButton"],
+							() => dom.setValue("Pseudo", result,
+								() => dom.focus("Message")
+							)
+						)
+					)
+				)
 				console.log("\t>>>> New user: " + result);
 			} else {
 				dom.alert("Already used!",
 					() => dom.setValue("Pseudo", result,
-						() => dom.focus("Pseudo")
+						() => dom.focus( "Pseudo" )
 					)
 				);
 			}
@@ -155,18 +158,17 @@ function acSubmitMessage(dom, id) {
 }
 
 function main() {
-	const callbacks = {
+	const CALLBACKS = {
 		"": acConnect,
 		"SubmitPseudo": acSubmitPseudo,
 		"SubmitMessage": acSubmitMessage,
 		"Update": (dom) => displayMessages(dom)
 	};
 
-	atlas.launch(newSession, callbacks, head);
-
+	atlas.launch(newSession, CALLBACKS, HEAD);
 }
 
-const head = `
+const HEAD = `
 <title>Chat room</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEUEAvyEhsxERuS8urQsKuycnsRkYtzc2qwUFvRUVtysrrx0ctTs6qTMyrSUksQ0NuyciPBdAAABHklEQVR42mNgwAa8zlxjDd2A4POfOXPmzZkFCAH2M8fNzyALzDlzg2ENssCbMwkMOsgCa858YOjBKxBzRoHhD7LAHiBH5swCT9HQ6A9ggZ4zp7YCrV0DdM6pBpAAG5Blc2aBDZA68wCsZPuZU0BDH07xvHOmAGKKvgMP2NA/Zw7ADIYJXGDgLQeBBSCBFu0aoAPYQUadMQAJAE29zwAVWMCWpgB08ZnDQGsbGhpsgCqBQHNfzRkDEIPlzFmo0T5nzoMovjPHoAK8Zw5BnA5yDosDSAVYQOYMKIDZzkoDzagAsjhqzjRAfXTmzAQgi/vMQZA6pjtAvhEk0E+ATWRRm6YBZuScCUCNN5szH1D4TGdOoSrggtiNAH3vBBjwAQCglIrSZkf1MQAAAABJRU5ErkJggg==" />
 <style type="text/css">
@@ -191,7 +193,7 @@ const head = `
 </style>
 `;
 
-const body = `
+const BODY = `
 <div class="hcenter">
 	<div style="display: flex; flex-direction: column;">
 		<fieldset>
@@ -215,7 +217,7 @@ const body = `
 // Note to developer:
 // DON'T PASTE TO Visual Studio : it inserts extraneous characters !
 // There must be NO characters before the XML declaration !
-const xsl = `<?xml version="1.0" encoding="UTF-8"?>
+const XSL = `<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:output method="html" encoding="UTF-8"/>
 	<xsl:template match="/XDHTML">
@@ -225,7 +227,7 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 		<xsl:apply-templates select="Message"/>
 	</xsl:template>
 	<xsl:template match="Message">
-		<li id="Message.{@id}" xdh:value="{@id}">
+		<li id="Message.{@id}">
 			<xsl:element name="span">
 				<xsl:attribute name="class">
 					<xsl:choose>
@@ -243,7 +245,6 @@ const xsl = `<?xml version="1.0" encoding="UTF-8"?>
 			<xsl:value-of select="."/>
 		</li>
 	</xsl:template>
-</xsl:stylesheet>
-`;
+</xsl:stylesheet>`;
 
 main();

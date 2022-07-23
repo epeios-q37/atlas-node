@@ -24,7 +24,7 @@ SOFTWARE.
 
 "use strict";
 
-var atlas;
+let atlas;
 
 if (process.env.Q37_EPEIOS) {
 	let epeiosPath = "";
@@ -42,10 +42,8 @@ if (process.env.Q37_EPEIOS) {
 const DOM = atlas.DOM;
 const readAsset = atlas.readAsset;
 
-var pseudos = [];
-var messages = [];
-
-var messageBlockId;
+let pseudos = [];
+let messages = [];
 
 class MyData extends DOM {
 	constructor() {
@@ -57,10 +55,10 @@ class MyData extends DOM {
 }
 
 function displayMessages(dom) {
-	var xml = atlas.createXML('XDHTML');
-	var i = messages.length - 1;
-	var message;
-
+	let xml = atlas.createXML('XDHTML');
+	let i = messages.length - 1;
+	let message;
+	
 	if (i >= dom.lastMessage) {
 		xml.pushTag("Messages");
 		xml.putAttribute( 'pseudo', dom.pseudo );
@@ -79,8 +77,9 @@ function displayMessages(dom) {
 
 		xml.popTag();
 
-		dom.begin("Board", xml, "Messages.xsl" );
-	}
+		dom.begin("Board", xml, "Messages.xsl");
+	} else
+		dom.drop()
 }
 
 function newSession() {
@@ -118,11 +117,15 @@ function acSubmitPseudo(dom, id) {
 				);
 			} else if (handlePseudo(result.toUpperCase())) {
 				dom.pseudo = result;
-				dom.addClass("PseudoButton", "hidden");
-				dom.disableElements(["Pseudo", "PseudoButton"]);
-				dom.enableElements(["Message", "MessageButton"]);
-				dom.setValue("Pseudo", result);
-				dom.focus("Message");
+				dom.addClass("PseudoButton", "hidden",
+					() => dom.disableElements(["Pseudo", "PseudoButton"],
+						() => dom.enableElements(["Message", "MessageButton"],
+							() => dom.setValue("Pseudo", result,
+								() => dom.focus("Message")
+							)
+						)
+					)
+				)
 				console.log("\t>>>> New user: " + result);
 			} else {
 				dom.alert("Already used!",
@@ -159,14 +162,14 @@ function acSubmitMessage(dom, id) {
 }
 
 function main() {
-	const callbacks = {
+	const CALLBACKS = {
 		"": acConnect,
 		"SubmitPseudo": acSubmitPseudo,
 		"SubmitMessage": acSubmitMessage,
 		"Update": (dom) => displayMessages(dom)
 	};
 
-	atlas.launch(newSession, callbacks, readAsset( "Head.html") );
+	atlas.launch(newSession, CALLBACKS, readAsset( "Head.html") );
 }
 
 main();
