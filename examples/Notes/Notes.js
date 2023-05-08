@@ -119,7 +119,9 @@ function displayList(dom) {
 
 function acConnect(dom, id) {
 	dom.inner("", body,
-		() => displayList(dom)
+		() => dom.enableElement("XDHFullWidth",
+			() => displayList(dom)
+		)
 	);
 }
 

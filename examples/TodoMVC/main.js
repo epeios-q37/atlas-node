@@ -139,9 +139,11 @@ function newSession() {
 
 function acConnect(dom, id) {
 	dom.inner("", readAsset("Main.html"),
-		() => dom.focus("Input",
-			() => dom.disableElements(["HideActive", "HideCompleted"],
-				() => displayTodos(dom)
+		() => dom.enableElement("XDHFullWidth",
+			() => dom.focus("Input",
+				() => dom.disableElements(["HideActive", "HideCompleted"],
+					() => displayTodos(dom)
+				)
 			)
 		)
 	);
